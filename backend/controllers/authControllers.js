@@ -1,11 +1,14 @@
 const User = require("../models/userModel");
+const ErrorHandler = require("../utils/errorHandler");
 const { sendToken } = require("../utils/jwtToken");
 
 // Register User
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
-    if (!name || !email || !password || !role) throw Error("Invalid Data");
+    if (!name || !email || !password || !role) {
+      return next(new ErrorHandler("Invalid Name or Email or Password", 401));
+    }
     const user = await User.create({
       name,
       email,
@@ -14,41 +17,43 @@ exports.registerUser = async (req, res) => {
     });
     sendToken(user, req, res, 200);
   } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: error.message,
-    });
+    return next(new ErrorHandler(error, 400));
+
+    // res.status(400).json({
+    //   success: false,
+    //   message: error.message,
+    // });
   }
 };
 
-//sign in user
+//sign in
 exports.signInUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (!email) throw new Error("Invalid email");
-    if (!password) throw new Error("Invalid password");
+    if (!email) {
+      return next(new ErrorHandler("Invalid Email", 401));
+    }
+    if (!password) {
+      return next(new ErrorHandler("Invalid Password", 401));
+    }
 
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      throw new Error("Invalid Email or Password", 401);
+      return next(new ErrorHandler("Invalid Email or Password", 401));
     }
     const isPasswordMatch = user.password === password;
     if (!isPasswordMatch) {
-      throw new Error("Invalid Email or Password");
+      return next(new ErrorHandler("Invalid Email or Password", 401));
     }
 
     sendToken(user, req, res, 200);
-
-    // return res.status(200).json({ success: true });
   } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: error.message,
-    });
+    return next(new ErrorHandler(err, 400));
   }
 };
 
+// logout
 exports.logout = (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
