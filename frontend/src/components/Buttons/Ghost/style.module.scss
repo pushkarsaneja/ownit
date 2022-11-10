@@ -1,0 +1,24 @@
+.ghost {
+  background-color: transparent;
+  font-size: 1.2rem;
+  font-weight: 600;
+  max-width: 100%;
+  min-width: 300px;
+  padding: 0 2rem;
+  min-height: 40px;
+  border: none;
+  outline: none;
+  border-radius: 150px;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.ghost.primary {
+  color: var(--primary);
+  border: 4px solid var(--primary);
+}
+
+.ghost.secondary {
+  color: var(--secondary);
+  border: 4px solid var(--secondary);
+}
