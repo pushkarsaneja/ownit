@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Primary from "./components/Buttons/Primary";
 import OAuth from "./components/Buttons/OAuth";
 import google from "./assets/icons/google.png";
 import facebook from "./assets/icons/facebook.png";
 import Rectangle from "./components/Buttons/Rectangle";
 import Ghost from "./components/Buttons/Ghost";
+import InputHandler from "./components/InputHandler";
+import Anchor from "./components/Anchor";
+import Heading from "./components/Heading";
+import SignIn from "./pages/signin";
 
 const App = () => {
+  const [text, setText] = useState("");
+
   return (
     <>
-      <Primary
+      {/* <Primary
         onClick={() => {
           console.log("I am primary button.");
         }}
@@ -48,6 +54,16 @@ const App = () => {
       >
         Login
       </Ghost>
+      <InputHandler
+        onChange={(e) => {
+          setText(e.target.value);
+        }}
+        value={text}
+      />
+      <br />
+      <Anchor link="https://www.google.com">Login</Anchor>
+      <Heading>Login to OwnIt</Heading> */}
+      <SignIn />
     </>
   );
 };

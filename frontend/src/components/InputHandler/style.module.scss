@@ -1,0 +1,14 @@
+.input {
+  min-width: 300px;
+  min-height: 30px;
+  border: 2px solid hsla(0, 0%, 0%, 0.704);
+  outline: none;
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  margin: 1rem;
+}
+
+.input:focus {
+  border: 3px solid var(--primary);
+}
