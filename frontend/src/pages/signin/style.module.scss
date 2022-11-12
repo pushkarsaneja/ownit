@@ -2,29 +2,51 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  .form {
+  .form-container {
+    transition: all 0.2s linear;
     border-radius: 10px;
     box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.2);
     padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     margin: 2rem;
 
-    .form-fields {
+    &.rotate {
+      transform: rotateY(180deg);
+
+      .sign-in-form {
+        display: none;
+      }
+
+      .sign-up-form {
+        display: flex;
+      }
+    }
+
+    .sign-in-form,
+    .sign-up-form {
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
+      flex-direction: column;
+
+      .form-fields {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .oauth-login {
+        display: flex;
+      }
+
+      .signup {
+        margin-left: 0;
+      }
     }
 
-    .oauth-login {
-      display: flex;
-    }
-
-    .signup {
-      margin-left: 0;
+    .sign-up-form {
+      transform: rotateY(-180deg);
+      display: none;
     }
   }
 }
