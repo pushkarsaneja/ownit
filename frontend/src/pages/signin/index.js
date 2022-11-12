@@ -7,16 +7,16 @@ import InputHandler from "../../components/InputHandler";
 import facebook from "../../assets/icons/facebook.png";
 import google from "../../assets/icons/google.png";
 import style from "./style.module.scss";
+import http from "../../lib/http";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-
     //Handle submit here
-
-    console.log(formData);
+    const data = await http("/api/v1/signin", "POST", formData);
+    console.log(data);
   };
 
   const onChangeHandler = (e) => {
