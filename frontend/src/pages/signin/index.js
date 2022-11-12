@@ -8,26 +8,25 @@ import facebook from "../../assets/icons/facebook.png";
 import google from "../../assets/icons/google.png";
 import style from "./style.module.scss";
 import Radio from "../../components/Radio";
+import http from "../../lib/http";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({ userType: "consumer" });
   const formContainerRef = useRef();
   const userType = formData.userType;
 
-  const onSignInHandler = (e) => {
+  const onSignInHandler = async (e) => {
     e.preventDefault();
 
     //Handle submit here
 
-    console.log(formData);
+    const data = await http("/api/v1/signin", "POST", formData);
+    console.log(data);
   };
 
   const onSignUpHandler = (e) => {
     e.preventDefault();
-
     //Handle submit here
-
-    console.log(formData);
   };
 
   const onChangeHandler = (e) => {
