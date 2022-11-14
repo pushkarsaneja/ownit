@@ -3,7 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const { sendToken } = require("../utils/jwtToken");
 
 // Register User
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
     if (!name || !email || !password || !role) {

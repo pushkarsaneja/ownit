@@ -13,6 +13,7 @@ exports.sendToken = (user, req, res, statusCode) => {
 
   return res.status(statusCode).cookie("token", token, options).json({
     success: true,
-    token,
+    name: user.name,
+    role: user.role,
   });
 };
