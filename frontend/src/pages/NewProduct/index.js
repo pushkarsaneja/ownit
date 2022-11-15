@@ -36,9 +36,12 @@ const NewProduct = () => {
 
   const confirmSelection = () => {
     setHide(true);
-    setFormData({
-      ...formData,
-      imgFile: canvasRef.current.getImageScaledToCanvas().toDataURL(),
+    canvasRef.current.getImageScaledToCanvas().toBlob((blob) => {
+      var reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = function () {
+        setFormData({ ...formData, imgFile: reader.result });
+      };
     });
   };
 
@@ -47,13 +50,7 @@ const NewProduct = () => {
     setFormData({ ...formData, imgFile: null, imgURL: null });
   };
 
-  const onsubmitHandler = async () => {
-    try {
-    } catch (err) {
-    } finally {
-      console.log(formData);
-    }
-
+  const onsubmitHandler = () => {
     //Handle Submit Here
   };
 
@@ -195,7 +192,6 @@ const NewProduct = () => {
         </div>
       </div>
       <Primary onClick={onsubmitHandler}>Add Product</Primary>
-      <img src={formData.imgBlob} alt="" />
     </div>
   );
 };
