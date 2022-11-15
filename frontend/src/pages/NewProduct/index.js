@@ -1,27 +1,60 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Heading from "../../components/Heading";
 import style from "./style.module.scss";
 import AvatarEditor from "react-avatar-editor";
 import addIcon from "../../assets/icons/plus.png";
 import addIconWhite from "../../assets/icons/plusWhite.png";
+import close from "../../assets/icons/close.png";
+import check from "../../assets/icons/check.png";
 import InputHandler from "../../components/InputHandler";
 import Primary from "../../components/Buttons/Primary";
+import Circular from "../../components/Buttons/Circular";
 
 const NewProduct = () => {
   const [formData, setFormData] = useState({
-    img: null,
+    imgURL: null,
+    imgFile: null,
     categories: [""],
   });
+
+  console.log(formData);
+
   const [zoom, setZoom] = useState(1);
 
+  const [hide, setHide] = useState(true);
+
+  const canvasRef = useRef();
+
   const onSelectHandler = (e) => {
-    setFormData({ ...formData, img: URL.createObjectURL(e.target.files[0]) });
+    setHide(false);
+    setFormData({
+      ...formData,
+      imgURL: URL.createObjectURL(e.target.files[0]),
+    });
     console.log(formData);
   };
 
-  const onsubmitHandler = () => {
+  const confirmSelection = () => {
+    setHide(true);
+    setFormData({
+      ...formData,
+      imgFile: canvasRef.current.getImageScaledToCanvas().toDataURL(),
+    });
+  };
+
+  const discardSelection = () => {
+    setHide(true);
+    setFormData({ ...formData, imgFile: null, imgURL: null });
+  };
+
+  const onsubmitHandler = async () => {
+    try {
+    } catch (err) {
+    } finally {
+      console.log(formData);
+    }
+
     //Handle Submit Here
-    console.log(formData);
   };
 
   return (
@@ -31,31 +64,38 @@ const NewProduct = () => {
         <div className={style["image-editor-container"]}>
           <div className={style["image-editor"]}>
             <AvatarEditor
+              ref={canvasRef}
               className={style["product-image"]}
               border={0}
-              image={formData.img}
+              image={formData.imgURL}
               scale={zoom}
               height={300}
               width={300}
+              onChange={() => {
+                console.log("Hello");
+              }}
             />
 
             <label
               className={`${style["add-image-icon"]} ${
-                formData.img ? style["hide"] : ""
+                formData.imgURL ? style["hide"] : ""
               }`}
             >
               <img src={addIcon} alt="add" />
               <input
                 className={style["file-input"]}
                 type="file"
-                onChange={onSelectHandler}
+                onChange={(e) => {
+                  discardSelection();
+                  onSelectHandler(e);
+                }}
               />
             </label>
 
             <label className={style["select-another"]}>
               <div
                 className={`${style["select-another"]} ${
-                  formData.img ? "" : style["hide"]
+                  hide && formData.imgFile ? "" : style["hide"]
                 }`}
               >
                 Select Another
@@ -64,9 +104,25 @@ const NewProduct = () => {
               <input
                 className={style["file-input"]}
                 type="file"
-                onChange={onSelectHandler}
+                onChange={(e) => {
+                  discardSelection();
+                  onSelectHandler(e);
+                }}
               />
             </label>
+
+            <div
+              className={`${style["confirm-selection"]} ${
+                hide || !formData.imgURL ? style["hide"] : ""
+              }`}
+            >
+              <Circular className={style["check"]} onClick={confirmSelection}>
+                <img src={check} alt="" />
+              </Circular>
+              <Circular className={style["close"]} onClick={discardSelection}>
+                <img src={close} alt="" />
+              </Circular>
+            </div>
           </div>
 
           <h3 className={style["zoom-heading"]}>Adjust zoom:</h3>
@@ -139,6 +195,7 @@ const NewProduct = () => {
         </div>
       </div>
       <Primary onClick={onsubmitHandler}>Add Product</Primary>
+      <img src={formData.imgBlob} alt="" />
     </div>
   );
 };

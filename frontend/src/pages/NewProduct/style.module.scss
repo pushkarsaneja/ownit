@@ -80,6 +80,31 @@
             display: none;
           }
         }
+
+        .confirm-selection {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          bottom: -1rem;
+          width: 300px;
+
+          &.hide {
+            display: none;
+          }
+
+          .check,
+          .close {
+            background-color: var(--success);
+            & > img {
+              height: 20px;
+            }
+          }
+
+          .close {
+            background-color: var(--caution);
+          }
+        }
       }
 
       .zoom-heading {
