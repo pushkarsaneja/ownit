@@ -1,0 +1,40 @@
+.radio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.radio .outer-circle {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  margin-right: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.radio .outer-circle .inner-circle {
+  height: 10px;
+  width: 10px;
+  border: 3px solid white;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.radio .outer-circle .inner-circle.active {
+  background-color: var(--primary);
+}
+/*# sourceMappingURL=style.module.css.map */
