@@ -1,7 +1,6 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 
-const contract = require('../../blockchain/index');
 
 exports.postProduct = async (req, res, next) => {
   try {
@@ -34,7 +33,7 @@ exports.postProduct = async (req, res, next) => {
     //   }
 
     // req.body.images = imagesLink;
-    console.log(contract);
+    
     const product = await Product.create({
       ...req.body,
       currentConsumer: req.user.id,

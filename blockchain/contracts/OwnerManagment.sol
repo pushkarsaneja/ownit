@@ -25,6 +25,9 @@ contract OwnerManagment{
         string productHash; 
     }
 
+    // events to get the details 
+    event userProfile(string name,address wallet,string role);
+
 
     // this map is to get the details of the product that is associated with the product
     mapping (string=>Product) productMap;
@@ -117,8 +120,8 @@ contract OwnerManagment{
          return productMap[hash];
     }
 
-    function getUserDetails()public view returns(user memory){
-        return userDetails[msg.sender];
+    function getUserDetails()public {
+        emit userProfile(userDetails[msg.sender].name, userDetails[msg.sender].wallet, userDetails[msg.sender].role);
     }
 
     function getUserPortFolio() public view returns(string[] memory){
@@ -133,3 +136,5 @@ contract OwnerManagment{
 
 }
 
+
+// 0xa881411cda825C612A2EdF0Ceec689DCbeB769eb contract address
