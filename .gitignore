@@ -5,6 +5,7 @@
 /backend/node_modules
 /blockchain/node_modules
 /node_modules
+/blockchain/node_modules
 
 /.pnp
 .pnp.js
