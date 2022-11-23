@@ -64,7 +64,7 @@ const NewProduct = () => {
   };
 
   return (
-    <div className={style["new-product-page"]}>
+    <div className={`${style["new-product-page"]} page`}>
       <Heading>Add New Product</Heading>
       <div className={style["main-container"]}>
         <div className={style["image-editor-container"]}>

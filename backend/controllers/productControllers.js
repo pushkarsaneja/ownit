@@ -5,7 +5,6 @@ const Web3 = require('web3');
 const OwnerManagment = require('../../blockchain/build/contracts/OwnerManagment.json');
 const web3 = new Web3(Web3.givenProvider || 'HTTP://127.0.0.1:7545');
 
-
 exports.postProduct = async (req, res, next) => {
   try {
     const { title, price, categories, description } = req.body;

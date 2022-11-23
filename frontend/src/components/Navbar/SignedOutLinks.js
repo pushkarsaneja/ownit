@@ -5,6 +5,12 @@ import style from "./style.module.scss";
 const LINKS = [
   {
     id: 0,
+    title: "Verify Product",
+    to: "/verifyproduct",
+    role: null,
+  },
+  {
+    id: 1,
     title: "Login",
     to: "/auth",
     role: null,

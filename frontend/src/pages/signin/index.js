@@ -62,7 +62,7 @@ const SignIn = ({ authenticated }) => {
   if (authenticated) return <Navigate to="/" />;
   else
     return (
-      <div className={style["sign-in-page"]}>
+      <div className={`${style["sign-in-page"]} page`}>
         <div className={style["form-container"]} ref={formContainerRef}>
           <form className={style["sign-in-form"]}>
             <Heading>Login to OwnIt</Heading>

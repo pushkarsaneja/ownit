@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.timeline {
+  position: relative;
+  max-width: 1400px;
+  margin-left: 1rem;
+  width: 80%;
+}
+.container {
+  padding: 10px 50px;
+  position: relative;
+  width: 100%;
+}
+.container .logo {
+  position: absolute;
+  top: 40px;
+  left: -5px;
+}
+.textbox {
+  position: relative;
+  padding: 20px 20px;
+  border: 1px solid var(--primary);
+  font-size: 15px;
+  border-radius: 6px;
+  header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin: 5px 0;
+  }
+}
+.date {
+  color: var(--darkgray);
+}
+
+.logo {
+  width: 10px;
+  height: 10px;
+  border: 5px solid white;
+  border-radius: 50%;
+  outline: 5px solid var(--primary);
+  background: var(--primary);
+  z-index: 10;
+}
+
+.timeline::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 4px;
+  background: var(--primary);
+  height: 100%;
+}
+.arrow {
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: 18px;
+  left: -15px;
+  z-index: 11;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 15px solid var(--primary);
+}
+.ownerDetails {
+  padding-left: 10px;
+}
+.transDetails {
+  display: flex;
+  width: 100%;
+  .left,
+  .right {
+    display: flex;
+    flex-direction: column;
+  }
+  .left .label {
+    color: var(--darkgray);
+    margin-right: 10px;
+  }
+  .right .value {
+    font-weight: 500;
+  }
+}
