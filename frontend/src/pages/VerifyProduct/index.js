@@ -17,8 +17,7 @@ const VerifyProduct = () => {
     e.preventDefault();
     if (refId.trim() === "") return;
     try {
-      const product = await getProduct(refId);
-      dispatch(currentProductActions.setCurrentProduct(product));
+      await getProduct(refId);
       navigate(`/productinfo/${refId}`);
     } catch (err) {
       console.log("Product Not found");

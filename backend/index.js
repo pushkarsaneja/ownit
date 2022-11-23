@@ -8,10 +8,10 @@ const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const errorMiddleware = require("./middlewares/Error");
 
-const jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json({ limit: "50mb" });
 const app = express();
 dotenv.config();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, parameterLimit: 50000 }));
 // app.use(express.json());
 app.use(jsonParser);
 app.use(cookieParser());
