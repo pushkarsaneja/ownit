@@ -11,6 +11,7 @@ const ScanQr = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState("");
   const [scan, setScan] = useState(true);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     qrScanner.current = new QrScanner(vidRef.current, (result) => {
@@ -38,17 +39,13 @@ const ScanQr = () => {
     }
   }, [result, navigate]);
 
+  const selectExisting = () => {};
+
   return (
     <div className={`${style["scan-qr-page"]} page`}>
       <Heading>Scan QR</Heading>
       <video ref={vidRef}></video>
-      <Primary
-        onClick={() => {
-          navigate("/verifyproduct");
-        }}
-      >
-        Use Existing Image
-      </Primary>
+      <Primary onClick={selectExisting}>Use Existing Image</Primary>
       <Primary
         onClick={() => {
           navigate("/verifyproduct");

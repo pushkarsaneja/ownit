@@ -12,33 +12,38 @@ const productSchema = new schema({
     required: [true, "Enter Product Description"],
   },
   manufacturer: {
-    type: String,
+    type: schema.Types.ObjectId,
+    ref: "User",
     required: [true, "Product Manufacture is required"],
   },
+
+  currentConsumer: {
+    type: schema.Types.ObjectId,
+    ref: "User",
+  },
+  ownerships: [
+    {
+      type: schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   images: [
     {
-      image_url: {
-        type: String,
-        reqired: true,
-      },
+      type: String,
     },
   ],
   price: {
     type: Number,
     required: [true, "enter price of product"],
   },
-  category: {
-    type: String,
-    required: [true, "Enter Product Category"],
-  },
+  categories: [
+    {
+      type: String,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),
-  },
-  createdBy: {
-    type: schema.Types.ObjectId,
-    ref: "user",
-    required: true,
   },
 });
 

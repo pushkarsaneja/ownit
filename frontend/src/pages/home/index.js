@@ -24,6 +24,10 @@ function Home() {
         Manufacturer Link
       </button>
       <button onClick={handleLogout}>Logout</button>
+      <br />
+      <button onClick={() => navigate("/manufacturer/define-product")}>
+        Create Product
+      </button>
     </div>
   );
 }

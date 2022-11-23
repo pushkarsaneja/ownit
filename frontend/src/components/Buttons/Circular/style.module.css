@@ -1,0 +1,20 @@
+.circular-button {
+  margin: 1rem;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: var(--primary);
+}
+/*# sourceMappingURL=style.module.css.map */

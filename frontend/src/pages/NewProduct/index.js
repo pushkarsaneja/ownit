@@ -9,6 +9,7 @@ import check from "../../assets/icons/check.png";
 import InputHandler from "../../components/InputHandler";
 import Primary from "../../components/Buttons/Primary";
 import Circular from "../../components/Buttons/Circular";
+import http from "../../lib/http";
 
 const NewProduct = () => {
   const [formData, setFormData] = useState({
@@ -50,8 +51,16 @@ const NewProduct = () => {
     setFormData({ ...formData, imgFile: null, imgURL: null });
   };
 
-  const onsubmitHandler = () => {
+  const onsubmitHandler = async () => {
     //Handle Submit Here
+    const data = await http("/api/v1/add-product", "POST", {
+      title: formData.productName,
+      price: formData.MRP,
+      categories: formData.categories,
+      description: formData.description,
+      images: [formData.imgFile],
+    });
+    console.log(data);
   };
 
   return (
