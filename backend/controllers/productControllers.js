@@ -1,7 +1,6 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 
-
 exports.postProduct = async (req, res, next) => {
   try {
     const { title, price, categories, description } = req.body;
@@ -33,7 +32,7 @@ exports.postProduct = async (req, res, next) => {
     //   }
 
     // req.body.images = imagesLink;
-    
+
     const product = await Product.create({
       ...req.body,
       currentConsumer: req.user.id,

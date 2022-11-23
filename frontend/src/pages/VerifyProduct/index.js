@@ -5,14 +5,24 @@ import InputHandler from "../../components/InputHandler";
 import QrImg from "../../assets/icons/qr-code.png";
 import Primary from "../../components/Buttons/Primary";
 import { useNavigate } from "react-router-dom";
-
+import { getProduct } from "./logic";
+import { currentProductActions } from "../../redux/currentProduct";
+import { useDispatch } from "react-redux";
 const VerifyProduct = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [refId, setRefId] = useState("");
 
-  const onVerify = (e) => {
+  const onVerify = async (e) => {
     e.preventDefault();
-    navigate(`/productinfo/${refId}`);
+    if (refId.trim() === "") return;
+    try {
+      const product = await getProduct(refId);
+      dispatch(currentProductActions.setCurrentProduct(product));
+      navigate(`/productinfo/${refId}`);
+    } catch (err) {
+      console.log("Product Not found");
+    }
   };
 
   const onInputChange = (e) => {

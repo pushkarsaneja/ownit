@@ -1,0 +1,58 @@
+.productInfoWrapper {
+  width: 100%;
+  display: flex;
+  position: relative;
+  height: calc(100vh - 50px);
+}
+.productDetailsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  padding: 10px;
+  overflow-y: scroll;
+  //   background-color: rgb(222, 126, 43);
+}
+.header {
+  margin: 1rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.info {
+  font-size: 1.2rem;
+  label {
+  }
+  p {
+    display: inline;
+    font-weight: 700;
+  }
+}
+
+.imageWrapper {
+  text-align: center;
+}
+.productTitle {
+  margin: 10px 0;
+}
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.productPrice {
+  font-size: 1.3rem;
+  margin: 1rem 0;
+  color: var(--gray);
+}
+.ownershipTimelineWrapper {
+  display: flex;
+  width: 40%;
+  flex-direction: column;
+  position: sticky;
+  top: 0px;
+  right: 0;
+  height: 90vh;
+  overflow-y: scroll;
+  align-items: center;
+}
