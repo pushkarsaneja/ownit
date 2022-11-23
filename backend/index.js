@@ -11,7 +11,7 @@ const errorMiddleware = require("./middlewares/Error");
 const jsonParser = bodyParser.json();
 const app = express();
 dotenv.config();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "15mb" }));
 // app.use(express.json());
 app.use(jsonParser);
 app.use(cookieParser());
