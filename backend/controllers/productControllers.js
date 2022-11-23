@@ -1,5 +1,9 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
+const sha256 = require('js-sha256').sha256;
+const Web3 = require('web3');
+const OwnerManagment = require('../../blockchain/build/contracts/OwnerManagment.json');
+const web3 = new Web3(Web3.givenProvider || 'HTTP://127.0.0.1:7545');
 
 
 exports.postProduct = async (req, res, next) => {
@@ -33,18 +37,36 @@ exports.postProduct = async (req, res, next) => {
     //   }
 
     // req.body.images = imagesLink;
-    
-    const product = await Product.create({
-      ...req.body,
-      currentConsumer: req.user.id,
-      ownerships: [req.user.id],
-      manufacturer: req.user.id,
-    });
 
-    res.status(201).json({
-      success: true,
-      product,
-    });
+    const hash = sha256(title.concat(description).concat(price));
+
+    web3.eth.net.getId().then((id)=>{
+      return id;
+    }).then((id)=>{
+      return deployedNetwork = OwnerManagment.networks[id]
+    }).then((deployedNetwork)=>{
+      const instance = new web3.eth.Contract(OwnerManagment.abi,deployedNetwork && deployedNetwork.address);
+
+
+      // these are the dummy address so it can vary for others private block chain.
+
+      instance.methods.addProduct(title,hash,price,description,categories).send({from:'0xE303752B85203Ffd5c81D45A5172e665Fef739a1',gas:'5000000'});
+      
+      
+    
+    }).then(async()=>{
+      const product = await Product.create({
+        ...req.body,
+        currentConsumer: req.user.id,
+        ownerships: [req.user.id],
+        manufacturer: req.user.id,
+      });
+      res.status(201).json({
+        success: true,
+        product,
+      });
+    })
+    
   } catch (error) {
     return next(new ErrorHandler(error, 400));
   }

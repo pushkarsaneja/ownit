@@ -4,11 +4,11 @@ pragma solidity ^0.8.0;
 contract OwnerManagment{
     struct Product{
         string name;
-        string brand;
+        string price;
         bool theft;
         string description;
         string hash;
-        string category;
+        string[] category;
         address[] customers;
         address owner;
     }
@@ -54,11 +54,11 @@ contract OwnerManagment{
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
     }
 
-    function addProduct(string memory name,string memory hash, string memory brand, string memory description, string memory category) public onlyManufacturer {
+    function addProduct(string memory name,string memory hash, string memory price, string memory description, string[] memory category) public onlyManufacturer {
         Product storage currProduct = productMap[hash];
         currProduct.name = name;
         currProduct.hash = hash;
-        currProduct.brand = brand;
+        currProduct.price = price;
         currProduct.description = description;
         currProduct.category = category;
         currProduct.customers.push(msg.sender);
