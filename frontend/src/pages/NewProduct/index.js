@@ -10,6 +10,8 @@ import InputHandler from "../../components/InputHandler";
 import Primary from "../../components/Buttons/Primary";
 import Circular from "../../components/Buttons/Circular";
 import http from "../../lib/http";
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
 const NewProduct = () => {
   const [formData, setFormData] = useState({
@@ -17,9 +19,9 @@ const NewProduct = () => {
     imgFile: null,
     categories: [""],
   });
-
+  const navigate = useNavigate();
   console.log(formData);
-
+  const alert = useAlert();
   const [zoom, setZoom] = useState(1);
 
   const [hide, setHide] = useState(true);
@@ -53,14 +55,20 @@ const NewProduct = () => {
 
   const onsubmitHandler = async () => {
     //Handle Submit Here
-    const data = await http("/api/v1/add-product", "POST", {
-      title: formData.productName,
-      price: formData.MRP,
-      categories: formData.categories,
-      description: formData.description,
-      images: [formData.imgFile],
-    });
-    console.log(data);
+    try {
+      const data = await http("/api/v1/add-product", "POST", {
+        title: formData.productName,
+        price: formData.MRP,
+        categories: formData.categories,
+        description: formData.description,
+        images: [formData.imgFile],
+      });
+      console.log(data);
+      alert.success("Product Created");
+      navigate("/verifyproduct");
+    } catch (err) {
+      alert.error("Some Error Occured while creting product");
+    }
   };
 
   return (
