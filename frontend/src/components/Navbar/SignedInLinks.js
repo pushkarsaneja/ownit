@@ -19,6 +19,12 @@ const LINKS = [
   },
   {
     id: 2,
+    title: "Verify Product",
+    role: null,
+    to: "/verifyproduct",
+  },
+  {
+    id: 3,
     title: "Profile",
     role: null,
     to: "/profile",

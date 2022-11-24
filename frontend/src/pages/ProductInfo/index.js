@@ -17,16 +17,12 @@ const ProductInfo = () => {
   }
 
   useEffect(() => {
-    if (!product) {
-      setLoading(true);
-      getProduct(params.refId).then((product) => {
-        dispatch(currentProductActions.setCurrentProduct(product));
-        setLoading(false);
-      });
-    } else {
+    setLoading(true);
+    getProduct(params.refId).then((product) => {
+      dispatch(currentProductActions.setCurrentProduct(product));
       setLoading(false);
-    }
-  }, []);
+    });
+  }, [params.refId]);
 
   if (loading) return <h1>Loading ....</h1>;
 
