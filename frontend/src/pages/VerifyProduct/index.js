@@ -6,9 +6,8 @@ import QrImg from "../../assets/icons/qr-code.png";
 import Primary from "../../components/Buttons/Primary";
 import { useNavigate } from "react-router-dom";
 import { getProduct } from "./logic";
-import { currentProductActions } from "../../redux/currentProduct";
-import { useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
+
 const VerifyProduct = () => {
   const navigate = useNavigate();
   const [refId, setRefId] = useState("");

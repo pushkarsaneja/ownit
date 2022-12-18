@@ -11,6 +11,7 @@ import Home from "./pages/home";
 import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";
 import Navbar from "./components/Navbar";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
@@ -77,6 +78,16 @@ const App = () => {
                 isManufacturer={isManufacturer}
               >
                 <NewProduct />
+              </Protected>
+            }
+          />
+
+          <Route
+            exact
+            path="/profile"
+            element={
+              <Protected authenticated={authenticated}>
+                <Profile />
               </Protected>
             }
           />

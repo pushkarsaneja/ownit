@@ -1,0 +1,156 @@
+.profileWrapper {
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  .bottom {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 4px 2px 8px 6px rgba(0, 0, 0, 0.1);
+  }
+  .top {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    box-shadow: 4px 2px 8px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.personalInfoWrapper {
+  width: 60%;
+  .header {
+    .edit {
+      color: blue;
+      text-decoration: underline;
+      display: inline;
+      margin-left: 30px;
+      cursor: pointer;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 20px 0;
+    .left {
+      width: 30%;
+      min-width: 200px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      p {
+        font-weight: 600;
+        margin-top: 5px;
+      }
+      .imageWrapper {
+        max-width: 200px;
+        max-height: 200px;
+        background-color: var(--lightgray);
+        border-radius: 50%;
+        overflow: hidden;
+        .image {
+          // background: red;
+        }
+      }
+    }
+  }
+
+  .table,
+  .key {
+    //   border: 1px solid black;
+    font-size: 1rem;
+  }
+  .table {
+    //   border: 2px solid lightcoral;
+    margin-left: 40px;
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+.addressInfoWrapper {
+  padding: 10px;
+  width: 40%;
+  max-height: 350px;
+  overflow-y: auto;
+  .content {
+    width: 100%;
+    padding: 20px 0;
+    .createNewAddressBtn {
+      width: fit-content;
+      color: var(--primary);
+      background-color: transparent;
+      outline: none;
+      // border: 2px solid var(--primary);
+      font-size: 1rem;
+      transition: all 200ms ease;
+      float: right;
+      cursor: pointer;
+      span {
+        font-size: 1.7rem;
+      }
+      &:hover {
+        transform: scale(1.04);
+      }
+      &:active {
+        transform: scale(0.99);
+      }
+    }
+    .addressList {
+      clear: both;
+      //   background-color: aquamarine;
+      list-style-type: none;
+      width: 100%;
+      margin-top: 1rem;
+      .address {
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--lightgray);
+        position: relative;
+        .deleteBtn {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin: 0;
+          font-size: 1rem;
+          width: 30px;
+          height: 30px;
+          background: transparent;
+        }
+        .tag {
+          font-weight: 700;
+          color: var(--darkgray);
+          margin-bottom: 5px;
+        }
+        .addressLine {
+          width: 100%;
+          word-wrap: break-word;
+          padding-left: 5px;
+        }
+        .addressStateCountryWrapper {
+          width: 100%;
+          padding-left: 5px;
+          p {
+            display: inline-block;
+          }
+          .country {
+            margin-left: 10px;
+          }
+        }
+        .pincode {
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+}
+.key {
+  font-weight: bolder;
+  padding: 10px;
+  width: min-content;
+  text-align: left;
+  color: var(--gray);
+}

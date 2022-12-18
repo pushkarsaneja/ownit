@@ -17,11 +17,11 @@ const options = {
   transition: transitions.SCALE,
 };
 root.render(
-  <React.StrictMode>
-    <AlertProvider template={AlertTemplate} {...options}>
-      <ReduxProvider store={store}>
-        <App />
-      </ReduxProvider>
-    </AlertProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <AlertProvider template={AlertTemplate} {...options}>
+    <ReduxProvider store={store}>
+      <App />
+    </ReduxProvider>
+  </AlertProvider>
+  // </React.StrictMode>
 );
