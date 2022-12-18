@@ -16,7 +16,6 @@ const productSchema = new schema({
     ref: "User",
     required: [true, "Product Manufacture is required"],
   },
-
   currentConsumer: {
     type: schema.Types.ObjectId,
     ref: "User",
