@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const User = require("../models/userModel");
 const ErrorHandler = require("../utils/errorHandler");
 
@@ -91,9 +92,31 @@ exports.getPersonalInfo = async (req, res, next) => {
   try {
     const user = await User.find(
       { _id: req.user.id },
-      "name email phone profile createdAt"
+      "name email phone profile createdAt id -_id"
     );
 
+    res.status(200).json({
+      success: true,
+      user: user[0],
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err));
+  }
+};
+
+exports.getSearchUserInfo = async (req, res, next) => {
+  try {
+    const { searchText } = req.body;
+    const user = await User.find(
+      {
+        $or: [
+          {
+            email: searchText,
+          },
+        ],
+      },
+      "name email _id profile"
+    );
     res.status(200).json({
       success: true,
       user: user[0],
@@ -130,5 +153,58 @@ exports.deleteSingleAddress = async (req, res, next) => {
     });
   } catch (err) {
     return next(new ErrorHandler(err));
+  }
+};
+
+exports.getUserTransactions = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+      .select("name transactions")
+      .populate({
+        path: "transactions",
+        select: "-_id",
+        populate: [
+          { path: "to", select: "name" },
+          { path: "from", select: "name" },
+          { path: "product", select: "title images" },
+        ],
+      });
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err));
+  }
+};
+
+exports.getUserOwnerships = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id)
+      .select("name currentAssests")
+      .populate({
+        path: "currentAssests",
+      });
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err));
+  }
+};
+
+// testing
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find().select("_id name email ");
+    res.status(201).json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error));
   }
 };
