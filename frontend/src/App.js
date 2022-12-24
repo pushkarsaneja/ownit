@@ -11,6 +11,9 @@ import Home from "./pages/home";
 import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";
 import Navbar from "./components/Navbar";
+import Assets from "./pages/Assets";
+import Test from "./pages/test";
+import Main from "./pages/Main";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
@@ -23,7 +26,10 @@ const App = () => {
         <Navbar authenticated={authenticated} role={role} />
         <Routes>
           <Route path="/verifyproduct" element={<VerifyProduct />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/verifyproduct/scan" element={<ScanQr />} />
+          <Route path="/assets" element={<Assets />} />
           <Route path="/productinfo/:refId" element={<ProductInfo />} />
           <Route
             exact

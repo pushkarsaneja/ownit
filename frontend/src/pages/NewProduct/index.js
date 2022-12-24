@@ -1,55 +1,20 @@
 import React, { useRef, useState } from "react";
 import Heading from "../../components/Heading";
 import style from "./style.module.scss";
-import AvatarEditor from "react-avatar-editor";
-import addIcon from "../../assets/icons/plus.png";
 import addIconWhite from "../../assets/icons/plusWhite.png";
-import close from "../../assets/icons/close.png";
-import check from "../../assets/icons/check.png";
 import InputHandler from "../../components/InputHandler";
 import Primary from "../../components/Buttons/Primary";
-import Circular from "../../components/Buttons/Circular";
 import http from "../../lib/http";
+import PhotoEditor from "../../components/PhotoEditor";
 
 const NewProduct = () => {
   const [formData, setFormData] = useState({
-    imgURL: null,
-    imgFile: null,
     categories: [""],
   });
 
+  const [imgData, setImgData] = useState({});
+
   console.log(formData);
-
-  const [zoom, setZoom] = useState(1);
-
-  const [hide, setHide] = useState(true);
-
-  const canvasRef = useRef();
-
-  const onSelectHandler = (e) => {
-    setHide(false);
-    setFormData({
-      ...formData,
-      imgURL: URL.createObjectURL(e.target.files[0]),
-    });
-    console.log(formData);
-  };
-
-  const confirmSelection = () => {
-    setHide(true);
-    canvasRef.current.getImageScaledToCanvas().toBlob((blob) => {
-      var reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = function () {
-        setFormData({ ...formData, imgFile: reader.result });
-      };
-    });
-  };
-
-  const discardSelection = () => {
-    setHide(true);
-    setFormData({ ...formData, imgFile: null, imgURL: null });
-  };
 
   const onsubmitHandler = async () => {
     //Handle Submit Here
@@ -58,7 +23,7 @@ const NewProduct = () => {
       price: formData.MRP,
       categories: formData.categories,
       description: formData.description,
-      images: [formData.imgFile],
+      images: [imgData.imgFile],
     });
     console.log(data);
   };
@@ -67,84 +32,7 @@ const NewProduct = () => {
     <div className={`${style["new-product-page"]} page`}>
       <Heading>Add New Product</Heading>
       <div className={style["main-container"]}>
-        <div className={style["image-editor-container"]}>
-          <div className={style["image-editor"]}>
-            <AvatarEditor
-              ref={canvasRef}
-              className={style["product-image"]}
-              border={0}
-              image={formData.imgURL}
-              scale={zoom}
-              height={300}
-              width={300}
-              onChange={() => {
-                console.log("Hello");
-              }}
-            />
-
-            <label
-              className={`${style["add-image-icon"]} ${
-                formData.imgURL ? style["hide"] : ""
-              }`}
-            >
-              <img src={addIcon} alt="add" />
-              <input
-                className={style["file-input"]}
-                type="file"
-                onChange={(e) => {
-                  discardSelection();
-                  onSelectHandler(e);
-                }}
-              />
-            </label>
-
-            <label className={style["select-another"]}>
-              <div
-                className={`${style["select-another"]} ${
-                  hide && formData.imgFile ? "" : style["hide"]
-                }`}
-              >
-                Select Another
-              </div>
-
-              <input
-                className={style["file-input"]}
-                type="file"
-                onChange={(e) => {
-                  discardSelection();
-                  onSelectHandler(e);
-                }}
-              />
-            </label>
-
-            <div
-              className={`${style["confirm-selection"]} ${
-                hide || !formData.imgURL ? style["hide"] : ""
-              }`}
-            >
-              <Circular className={style["check"]} onClick={confirmSelection}>
-                <img src={check} alt="" />
-              </Circular>
-              <Circular className={style["close"]} onClick={discardSelection}>
-                <img src={close} alt="" />
-              </Circular>
-            </div>
-          </div>
-
-          <h3 className={style["zoom-heading"]}>Adjust zoom:</h3>
-
-          <input
-            className={style["slider"]}
-            type="range"
-            min="0.1"
-            max="5"
-            step="0.1"
-            value={zoom}
-            onChange={(e) => {
-              setZoom(Number(e.target.value));
-            }}
-          />
-        </div>
+        <PhotoEditor imgData={imgData} setImgData={setImgData} />
         <div className={style["form-fields"]}>
           <InputHandler
             className={style["input"]}

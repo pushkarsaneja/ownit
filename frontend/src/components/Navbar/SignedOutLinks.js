@@ -20,11 +20,11 @@ const LINKS = [
 function SignedOutLinks() {
   const location = useLocation();
   return (
-    <ul className={`${style["ul"]}`}>
+    <ul className={`${style["links-list"]}`}>
       {LINKS.map((link) => {
         return (
           <li
-            className={`${style["li"]} ${
+            className={`${style["link"]} ${
               location.pathname === link.to ? `${style["active"]}` : ""
             }`}
           >

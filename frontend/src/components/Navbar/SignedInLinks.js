@@ -2,12 +2,15 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { userActions } from "../../redux/userSlice";
+import Ghost from "../Buttons/Ghost";
 import style from "./style.module.scss";
+import metaIcon from "../../assets/images/metamask.png";
+import powerIcon from "../../assets/images/power.png";
 
 const LINKS = [
   {
     id: 0,
-    title: "Home",
+    title: "Profile",
     role: null,
     to: "/",
   },
@@ -25,9 +28,15 @@ const LINKS = [
   },
   {
     id: 3,
-    title: "Profile",
+    title: "Assets",
     role: null,
-    to: "/profile",
+    to: "/assets",
+  },
+  {
+    id: 4,
+    title: "Transactions",
+    role: null,
+    to: "/transactions",
   },
 ];
 
@@ -45,12 +54,12 @@ function SignedInLinks({ role }) {
     );
   };
   return (
-    <ul className={`${style["ul"]}`}>
+    <ul className={`${style["links-list"]}`}>
       {LINKS.map((link) => {
         if (link.role === null || link.role === role)
           return (
             <li
-              className={`${style["li"]} ${
+              className={`${style["link"]} ${
                 location.pathname === link.to ? `${style["active"]}` : ""
               }`}
             >
@@ -58,11 +67,21 @@ function SignedInLinks({ role }) {
             </li>
           );
       })}
-
       <li>
-        <button className={`${style["logoutBtn"]}`} onClick={handleLogout}>
-          Logout
-        </button>
+        <Ghost className={style["connect-wallet"]} onClick={() => {}}>
+          <div>
+            <img src={metaIcon} alt="" />
+            Connect Wallet
+          </div>
+        </Ghost>
+      </li>
+      <li>
+        <Ghost className={style["logout-btn"]} onClick={handleLogout}>
+          <div>
+            <img src={powerIcon} alt="" />
+            Logout
+          </div>
+        </Ghost>
       </li>
     </ul>
   );
