@@ -16,14 +16,21 @@ const productSchema = new schema({
     ref: "User",
     required: [true, "Product Manufacture is required"],
   },
-  currentConsumer: {
+  currentOwner: {
     type: schema.Types.ObjectId,
     ref: "User",
   },
   ownerships: [
     {
-      type: schema.Types.ObjectId,
-      ref: "User",
+      _id: false,
+      user: {
+        type: schema.Types.ObjectId,
+        ref: "User",
+      },
+      date: {
+        type: Date,
+        required: [true, "Ownership acquisition date is required"],
+      },
     },
   ],
   images: [
@@ -40,6 +47,10 @@ const productSchema = new schema({
       type: String,
     },
   ],
+  stolen: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
