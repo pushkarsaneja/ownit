@@ -5,12 +5,15 @@ import VerifyProduct from "./pages/VerifyProduct";
 import ProductInfo from "./pages/ProductInfo";
 import ScanQr from "./pages/ScanQr";
 import { useSelector } from "react-redux";
-import SignIn from "./pages/signin/index";
+import SignIn from "./pages/SignIn";
 import Protected from "./components/Protected";
 import Home from "./pages/home";
 import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";
 import Navbar from "./components/Navbar";
+import Assets from "./pages/Assets";
+import Test from "./pages/test";
+import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 
@@ -25,7 +28,10 @@ const App = () => {
         <Navbar authenticated={authenticated} role={role} />
         <Routes>
           <Route path="/verifyproduct" element={<VerifyProduct />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/verifyproduct/scan" element={<ScanQr />} />
+          <Route path="/assets" element={<Assets />} />
           <Route path="/productinfo/:refId" element={<ProductInfo />} />
           <Route
             exact
