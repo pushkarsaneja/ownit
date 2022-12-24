@@ -6,20 +6,21 @@ import QrImg from "../../assets/icons/qr-code.png";
 import Primary from "../../components/Buttons/Primary";
 import { useNavigate } from "react-router-dom";
 import { getProduct } from "./logic";
-import { currentProductActions } from "../../redux/currentProduct";
-import { useDispatch } from "react-redux";
+import { useAlert } from "react-alert";
+
 const VerifyProduct = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [refId, setRefId] = useState("");
-
+  const alert = useAlert();
   const onVerify = async (e) => {
     e.preventDefault();
+
     if (refId.trim() === "") return;
     try {
       await getProduct(refId);
       navigate(`/productinfo/${refId}`);
     } catch (err) {
+      alert.error("Product Not Found");
       console.log("Product Not found");
     }
   };

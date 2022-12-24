@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
 const errorMiddleware = require("./middlewares/Error");
 
 const jsonParser = bodyParser.json({ limit: "50mb" });
@@ -24,6 +25,7 @@ app.use(
 
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", userRoutes);
 app.use(errorMiddleware);
 
 module.exports = app;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Heading from "../../components/Heading";
 import style from "./style.module.scss";
 import addIconWhite from "../../assets/icons/plusWhite.png";
