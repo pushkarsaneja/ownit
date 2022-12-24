@@ -74,7 +74,7 @@ const ProductInfo = () => {
           <p className={style["productDescription"]}>{description}</p>
           <h3 className={style["productPrice"]}>₹ {price}</h3>
         </div>
-        {currentOwner.toString() === id.toString() && (
+        {currentOwner && id && currentOwner.toString() === id.toString() && (
           <div className="actionBtnsWrapper">
             <Rectangle onClick={() => setOTOpen(true)}>
               Transfer Ownership
