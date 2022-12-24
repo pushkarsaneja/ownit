@@ -1,5 +1,5 @@
 import React from "react";
-import SubHeading from "../SubHeading";
+import SubHeading from "../../../components/SubHeading";
 
 function OwnershipsList() {
   return (

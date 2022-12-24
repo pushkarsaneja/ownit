@@ -1,5 +1,5 @@
 import React from "react";
-import OwnershipsList from "../OwnershipsList";
+import OwnershipsList from "./OwnershipsList";
 import AddressInfo from "./AddressInfo";
 import PersonalInfo from "./PersonalInfo";
 import style from "./style.module.scss";

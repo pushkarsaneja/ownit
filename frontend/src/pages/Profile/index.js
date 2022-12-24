@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import ConsumerProfile from "../../components/Profile/ConsumerProfile";
-import DistributorProfile from "../../components/Profile/DistributorProfile";
-import ManufacturerProfile from "../../components/Profile/ManufacturerProfile";
+import ConsumerProfile from "./ConsumerProfile";
+import DistributorProfile from "./DistributorProfile";
+import ManufacturerProfile from "./ManufacturerProfile";
 
 function Profile() {
   const { role } = useSelector((state) => state.user);

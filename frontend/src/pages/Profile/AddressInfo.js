@@ -3,8 +3,7 @@ import AddNewAddressModal from "./Modals/AddNewAddressModal";
 import { useAlert } from "react-alert";
 import style from "./style.module.scss";
 import { deleteAddress, getAddressInfo } from "./logic";
-import Circular from "../Buttons/Circular";
-import Ghost from "../Buttons/Ghost";
+import Circular from "../../components/Buttons/Circular";
 
 function AddressInfo() {
   const alert = useAlert();

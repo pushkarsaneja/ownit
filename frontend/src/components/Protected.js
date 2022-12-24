@@ -8,6 +8,8 @@ function Protected({
   isManufacturer,
   isDistributorRoute,
   isDistributor,
+  isAuthority,
+  isAuthorityRoute,
   redirect = "/auth",
   redirectAdmin = "/",
 }) {
@@ -18,6 +20,9 @@ function Protected({
 
   if (isDistributorRoute && !isDistributor)
     return <Navigate to={redirectAdmin} />;
+
+  if (isAuthorityRoute && !isAuthority) return <Navigate to={redirectAdmin} />;
+
   return children ? children : <Outlet />;
 }
 

@@ -3,7 +3,7 @@ import { getPersonalInfo } from "./logic";
 import EditPersonalInfoModal from "./Modals/EditPersonalInfoModal";
 import { useAlert } from "react-alert";
 import style from "./style.module.scss";
-import SubHeading from "../SubHeading";
+import SubHeading from "../../components/SubHeading/index";
 
 function PersonalInfo() {
   const alert = useAlert();

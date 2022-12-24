@@ -147,6 +147,14 @@ const SignIn = ({ authenticated }) => {
               >
                 Consumer
               </Radio>
+              <Radio
+                onClick={() => {
+                  setUserType("authority");
+                }}
+                active={role.toLowerCase() === "authority"}
+              >
+                Authority
+              </Radio>
             </div>
             <Primary onClick={onSignUpHandler}>Signup</Primary>
             <div>

@@ -21,7 +21,7 @@
 }
 .textbox {
   position: relative;
-  padding: 20px 20px;
+  padding: 20px 10px;
   border: 1px solid var(--primary);
   font-size: 15px;
   border-radius: 6px;
@@ -80,6 +80,7 @@
   .left .label {
     color: var(--darkgray);
     margin-right: 10px;
+    min-width: 100px;
   }
   .right .value {
     font-weight: 500;

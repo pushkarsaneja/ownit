@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../../Modal";
+import Modal from "../../../components/Modal";
 import style from "./style.module.scss";
 import { Country, State } from "country-state-city";
 import { saveNewAddress } from "../logic";
 import { useAlert } from "react-alert";
-import Rectangle from "../../Buttons/Rectangle";
+import Rectangle from "../../../components/Buttons/Rectangle";
 
 function AddNewAddressModal({ handleClose, open, setData }) {
   const [address, setAddress] = useState({

@@ -12,12 +12,13 @@ import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";
 import Navbar from "./components/Navbar";
 import Profile from "./pages/Profile";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
   const isManufacturer = role?.toLowerCase() === "manufacturer";
   const isDistributor = role?.toLowerCase() === "distributor";
-
+  const isAuthority = role?.toLowerCase() === "authority";
   return (
     <>
       <Router>
@@ -78,6 +79,19 @@ const App = () => {
                 isManufacturer={isManufacturer}
               >
                 <NewProduct />
+              </Protected>
+            }
+          />
+          <Route
+            exact
+            path="/Dashboard"
+            element={
+              <Protected
+                authenticated={authenticated}
+                isAuthority={isAuthority}
+                isAuthorityRoute={true}
+              >
+                <Dashboard />
               </Protected>
             }
           />

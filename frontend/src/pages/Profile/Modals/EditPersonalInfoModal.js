@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useAlert } from "react-alert";
-import Rectangle from "../../Buttons/Rectangle";
-import Modal from "../../Modal";
+import Rectangle from "../../../components/Buttons/Rectangle";
+import Modal from "../../../components/Modal";
 import { savePersonalInfo } from "./logic";
 import style from "./style.module.scss";
 
 function EditPersonalInfoModal({ handleClose, open, data, setData }) {
   const alert = useAlert();
+  const firstInputRef = useRef();
   const [value, setValue] = useState({
     name: data?.name || "-",
     email: data?.email || "-",
@@ -35,6 +37,12 @@ function EditPersonalInfoModal({ handleClose, open, data, setData }) {
     }
   };
 
+  useEffect(() => {
+    if (firstInputRef?.current) {
+      firstInputRef.current.focus();
+    }
+  }, []);
+
   return (
     <Modal handleClose={handleClose} open={open} style={{ width: "600px" }}>
       <div className={`${style["modalWrapper"]}`}>
@@ -43,7 +51,7 @@ function EditPersonalInfoModal({ handleClose, open, data, setData }) {
         <table className={`${style["table"]}`}>
           <tr className={`${style["row"]}`}>
             <td className={`${style["key"]}`}>User ID</td>
-            <td className={`${style["value"]}`}>123213</td>
+            <td className={`${style["value"]}`}>{data._id}</td>
           </tr>
           <tr>
             <td className={`${style["key"]}`}>Name</td>
@@ -54,6 +62,7 @@ function EditPersonalInfoModal({ handleClose, open, data, setData }) {
                 value={value.name}
                 name="name"
                 onChange={handleChange}
+                ref={firstInputRef}
               />
             </td>
           </tr>

@@ -7,6 +7,7 @@ const userSlice = createSlice({
     name: "",
     authenticated: false,
     role: "user",
+    id: null,
   },
   reducers: {
     setProfile,

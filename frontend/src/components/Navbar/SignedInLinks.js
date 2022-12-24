@@ -12,6 +12,12 @@ const LINKS = [
     to: "/",
   },
   {
+    id: 4,
+    title: "Dashboard",
+    role: "authority",
+    to: "/dashboard",
+  },
+  {
     id: 1,
     title: "Create Product",
     role: "manufacturer",
