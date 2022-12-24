@@ -92,7 +92,7 @@ exports.getPersonalInfo = async (req, res, next) => {
   try {
     const user = await User.find(
       { _id: req.user.id },
-      "name email phone profile createdAt id -_id"
+      "name email phone profile createdAt id"
     );
 
     res.status(200).json({

@@ -11,7 +11,7 @@ function Protected({
   isAuthority,
   isAuthorityRoute,
   redirect = "/auth",
-  redirectAdmin = "/",
+  redirectAdmin = "/profile",
 }) {
   if (!authenticated) return <Navigate to={redirect} />;
 
