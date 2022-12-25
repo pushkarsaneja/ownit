@@ -12,7 +12,7 @@ import style from "../style.module.scss";
 const soldOn = (owners, currentUser) => {
   console.log(owners);
   for (let i = owners.length - 1; i >= 0; i--) {
-    if (owners[i].id === currentUser)
+    if (owners[i].user.toString() === currentUser)
       return new Date(owners[i].date).toLocaleDateString();
   }
 };
@@ -29,7 +29,6 @@ function OwnershipsList() {
     getOwnerships()
       .then((res) => {
         setData(res.user.allAssests);
-        console.log(res.user.allAssests);
       })
       .catch((err) => {
         console.log("error in getting ownerships", err);
@@ -43,10 +42,12 @@ function OwnershipsList() {
 
   return (
     <div>
-      <SubHeading>Ownership List</SubHeading>
+      <SubHeading>Ownerships List</SubHeading>
       <div className={`${style["ownershipProductsWrapper"]}`}>
         {loading ? (
           <p>Loading...</p>
+        ) : data && data.length === 0 ? (
+          <h5>No current Ownerships</h5>
         ) : (
           <>
             {data.map((prod) => (
