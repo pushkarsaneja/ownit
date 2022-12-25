@@ -8,6 +8,8 @@ import { currentProductActions } from "../../redux/currentProduct";
 import { getProduct } from "../VerifyProduct/logic";
 import style from "./style.module.scss";
 import TransferOwnershipModal from "./TransferOwnershipModal";
+import notFound from "../../assets/images/imgNotFound.webp";
+import Primary from "../../components/Buttons/Primary";
 
 const ProductInfo = () => {
   const params = useParams();
@@ -15,7 +17,7 @@ const ProductInfo = () => {
   const [OTOpen, setOTOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { product } = useSelector((state) => state.currentProduct);
-
+  const [showQR, setShowQR] = useState(false);
   const { id } = useSelector((state) => state.user);
 
   if (product) {
@@ -63,12 +65,24 @@ const ProductInfo = () => {
           </div>
         </header>
         <div className={style["imageWrapper"]}>
-          {images && images.length === 0 ? (
-            <img src="https://picsum.photos/300/300" />
-          ) : (
-            <img src={images ? images[0] : ""} />
-          )}
+          <img
+            src={
+              showQR
+                ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${_id}`
+                : images && images.length === 0
+                ? notFound
+                : images[0]
+            }
+            alt=""
+          />
         </div>
+        <Primary
+          onClick={() => {
+            setShowQR((prev) => !prev);
+          }}
+        >
+          {showQR ? "Hide QR" : "Reveal QR"}
+        </Primary>
         <div className={style["productDetails"]}>
           <h2 className={style["productTitle"]}>{title}</h2>
           <p className={style["productDescription"]}>{description}</p>
