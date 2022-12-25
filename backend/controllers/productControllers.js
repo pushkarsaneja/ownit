@@ -41,10 +41,15 @@ exports.postProduct = async (req, res, next) => {
       manufacturer: req.user.id,
     });
 
-    const user = await User.findById(req.user.id);
-    user.currentAssests = [product._id];
-    user.allAssests = [product._id];
-    user.save({ validateBeforeSave: true });
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      {
+        $push: {
+          currentAssests: product._id,
+          allAssests: product._id,
+        },
+      }
+    );
 
     res.status(201).json({
       success: true,

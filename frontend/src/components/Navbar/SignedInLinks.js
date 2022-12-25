@@ -12,7 +12,7 @@ const LINKS = [
     id: 0,
     title: "Profile",
     role: null,
-    to: "/",
+    to: "/profile",
   },
   {
     id: 4,

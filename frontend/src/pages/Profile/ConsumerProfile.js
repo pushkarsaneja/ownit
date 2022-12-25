@@ -1,6 +1,5 @@
 import React from "react";
 import OwnershipsList from "./OwnershipsList";
-import AddressInfo from "./AddressInfo";
 import PersonalInfo from "./PersonalInfo";
 import style from "./style.module.scss";
 
@@ -9,7 +8,6 @@ function ConsumerProfile() {
     <div className={`${style["profileWrapper"]}`}>
       <section className={`${style["top"]}`}>
         <PersonalInfo />
-        <AddressInfo />
       </section>
       <section className={`${style["bottom"]}`}>
         <OwnershipsList />

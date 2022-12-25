@@ -92,7 +92,7 @@ exports.getPersonalInfo = async (req, res, next) => {
   try {
     const user = await User.find(
       { _id: req.user.id },
-      "name email phone profile createdAt id -_id"
+      "name email phone profile createdAt id"
     );
 
     res.status(200).json({
@@ -182,9 +182,9 @@ exports.getUserTransactions = async (req, res, next) => {
 exports.getUserOwnerships = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id)
-      .select("name currentAssests")
+      .select("name allAssests")
       .populate({
-        path: "currentAssests",
+        path: "allAssests",
       });
 
     res.status(200).json({

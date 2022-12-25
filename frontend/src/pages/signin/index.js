@@ -59,7 +59,7 @@ const SignIn = ({ authenticated }) => {
     setFormData({ ...formData, role });
   };
 
-  if (authenticated) return <Navigate to="/" />;
+  if (authenticated) return <Navigate to="/profile" />;
   else
     return (
       <div className={`${style["sign-in-page"]} page`}>
