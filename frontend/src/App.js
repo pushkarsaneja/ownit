@@ -16,6 +16,7 @@ import Test from "./pages/test";
 import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import Transactions from "./pages/transactions";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
@@ -108,6 +109,16 @@ const App = () => {
             element={
               <Protected authenticated={authenticated}>
                 <Profile />
+              </Protected>
+            }
+          />
+
+          <Route
+            exact
+            path="/transactions"
+            element={
+              <Protected authenticated={authenticated}>
+                <Transactions />
               </Protected>
             }
           />
