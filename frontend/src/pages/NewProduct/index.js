@@ -6,26 +6,33 @@ import InputHandler from "../../components/InputHandler";
 import Primary from "../../components/Buttons/Primary";
 import http from "../../lib/http";
 import PhotoEditor from "../../components/PhotoEditor";
+import { useNavigate } from "react-router-dom";
 
 const NewProduct = () => {
   const [formData, setFormData] = useState({
     categories: [""],
   });
-
+  const navigate = useNavigate();
   const [imgData, setImgData] = useState({});
 
   console.log(formData);
 
   const onsubmitHandler = async () => {
     //Handle Submit Here
-    const data = await http("/api/v1/add-product", "POST", {
-      title: formData.productName,
-      price: formData.MRP,
-      categories: formData.categories,
-      description: formData.description,
-      images: [imgData.imgFile],
-    });
-    console.log(data);
+    try {
+      const data = await http("/api/v1/add-product", "POST", {
+        title: formData.productName,
+        price: formData.MRP,
+        categories: formData.categories,
+        description: formData.description,
+        images: [formData.imgFile],
+      });
+
+      alert.success("Product Created");
+      navigate("/profile");
+    } catch (err) {
+      alert.error("Some Error Occured while creting product");
+    }
   };
 
   return (
