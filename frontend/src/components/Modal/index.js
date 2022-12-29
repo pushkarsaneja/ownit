@@ -1,7 +1,7 @@
 import React from "react";
 import Circular from "../Buttons/Circular";
 import extStyle from "./style.module.scss";
-
+import close from "../../assets/icons/close.png";
 function Modal({ handleClose, open, style, children }) {
   return (
     <div

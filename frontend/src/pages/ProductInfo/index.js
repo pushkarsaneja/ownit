@@ -8,23 +8,48 @@ import { currentProductActions } from "../../redux/currentProduct";
 import { getProduct } from "../VerifyProduct/logic";
 import style from "./style.module.scss";
 import TransferOwnershipModal from "./TransferOwnershipModal";
+import notFound from "../../assets/images/imgNotFound.webp";
+import ReportStolenModal from "./ReportStolenModal";
+import BannerMessage from "../../components/bannerMessage";
+import { markFound } from "./logic";
+import { useAlert } from "react-alert";
 
 const ProductInfo = () => {
   const params = useParams();
+  const alert = useAlert();
   const dispatch = useDispatch();
   const [OTOpen, setOTOpen] = useState(false);
+  const [RSOpen, setRSOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { product } = useSelector((state) => state.currentProduct);
 
   const { id } = useSelector((state) => state.user);
 
   if (product) {
-    var { _id, title, description, createdAt, price, images, currentOwner } =
-      product;
+    var {
+      _id,
+      title,
+      description,
+      createdAt,
+      price,
+      images,
+      currentOwner,
+      reportId,
+    } = product;
   }
 
   const handleClose = () => {
     setOTOpen(false);
+  };
+
+  const handleFound = async () => {
+    markFound(_id)
+      .then((res) => {
+        alert.success("Marked found");
+      })
+      .catch((err) => {
+        alert.error(err);
+      });
   };
 
   useEffect(() => {
@@ -52,6 +77,12 @@ const ProductInfo = () => {
     <div className={style["productInfoWrapper"]}>
       <div className={style["productDetailsWrapper"]}>
         <Heading>Product Details</Heading>
+        {reportId && (
+          <BannerMessage
+            text="This product is reported as STOLEN"
+            color="danger"
+          />
+        )}
         <header className={style["header"]}>
           <div className={style["info"]}>
             <label>Ref id : </label>
@@ -64,7 +95,7 @@ const ProductInfo = () => {
         </header>
         <div className={style["imageWrapper"]}>
           {images && images.length === 0 ? (
-            <img src="https://picsum.photos/300/300" />
+            <img src={notFound} />
           ) : (
             <img src={images ? images[0] : ""} />
           )}
@@ -76,10 +107,18 @@ const ProductInfo = () => {
         </div>
         {currentOwner && id && currentOwner.toString() === id.toString() && (
           <div className="actionBtnsWrapper">
-            <Rectangle onClick={() => setOTOpen(true)}>
-              Transfer Ownership
-            </Rectangle>
-            <Rectangle>Report Stolen</Rectangle>
+            {!reportId ? (
+              <>
+                <Rectangle onClick={() => setOTOpen(true)}>
+                  Transfer Ownership
+                </Rectangle>
+                <Rectangle onClick={() => setRSOpen(true)}>
+                  Report Stolen
+                </Rectangle>
+              </>
+            ) : (
+              <Rectangle onClick={handleFound}>Report Found</Rectangle>
+            )}
           </div>
         )}
       </div>
@@ -91,6 +130,7 @@ const ProductInfo = () => {
 
       {/* Modal */}
       <TransferOwnershipModal open={OTOpen} handleClose={handleClose} />
+      <ReportStolenModal open={RSOpen} handleClose={() => setRSOpen(false)} />
     </div>
   );
 };
