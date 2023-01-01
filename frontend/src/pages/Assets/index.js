@@ -5,6 +5,7 @@ import style from "./style.module.scss";
 import { products } from "../../sampleData/products";
 import { last } from "../../helperFunctions/last";
 import TransactionCard from "../../components/Card/TransactionCard";
+import SearchSort from "../../components/SearchSort";
 
 const currentUser = "6883237943";
 
@@ -15,9 +16,26 @@ const soldOn = (owners) => {
   }
 };
 
+const onSort = (ascending) => {
+  if (ascending) {
+    //handle ascending
+    console.log("sort in ascending");
+  } else {
+    //handle descending
+    console.log("Sort in descending");
+  }
+};
+
+const onSearch = (value) => {
+  //handle search
+
+  console.log("Value:", value);
+};
+
 const Assets = () => {
   return (
-    <div className={`${style["assets-page"]} page`}>
+    <div className={`${style["assets-page"]}`}>
+      <SearchSort onSearch={onSearch} onSort={onSort} />
       <TransactionCard />
       <LotCard />
       <LotCard />

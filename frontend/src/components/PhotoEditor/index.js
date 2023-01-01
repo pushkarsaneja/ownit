@@ -59,6 +59,14 @@ const PhotoEditor = ({
   return (
     <div className={`${style["image-editor-container"]} ${className}`}>
       <div className={style["image-editor"]}>
+        <Circular
+          className={`${style["remove-photo"]} ${
+            hide && imgData.imgFile ? "" : style["hide"]
+          }`}
+          onClick={discardSelection}
+        >
+          <img src={close} alt="" />
+        </Circular>
         <AvatarEditor
           ref={canvasRef}
           className={style["product-image"]}

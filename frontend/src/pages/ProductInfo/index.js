@@ -89,11 +89,14 @@ const ProductInfo = () => {
           <h3 className={style["productPrice"]}>₹ {price}</h3>
         </div>
         {currentOwner && id && currentOwner.toString() === id.toString() && (
-          <div className="actionBtnsWrapper">
-            <Rectangle onClick={() => setOTOpen(true)}>
+          <div className={style["actionBtnsWrapper"]}>
+            <Rectangle
+              onClick={() => setOTOpen(true)}
+              className={style["transfer-btn"]}
+            >
               Transfer Ownership
             </Rectangle>
-            <Rectangle>Report Stolen</Rectangle>
+            <Rectangle className={style["report"]}>Report Stolen</Rectangle>
           </div>
         )}
       </div>
