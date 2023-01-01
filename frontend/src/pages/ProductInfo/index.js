@@ -10,23 +10,47 @@ import style from "./style.module.scss";
 import TransferOwnershipModal from "./TransferOwnershipModal";
 import notFound from "../../assets/images/imgNotFound.webp";
 import Primary from "../../components/Buttons/Primary";
+import ReportStolenModal from "./ReportStolenModal";
+import BannerMessage from "../../components/bannerMessage";
+import { markFound } from "./logic";
+import { useAlert } from "react-alert";
 
 const ProductInfo = () => {
   const params = useParams();
+  const alert = useAlert();
   const dispatch = useDispatch();
   const [OTOpen, setOTOpen] = useState(false);
+  const [RSOpen, setRSOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { product } = useSelector((state) => state.currentProduct);
   const [showQR, setShowQR] = useState(false);
   const { id } = useSelector((state) => state.user);
 
   if (product) {
-    var { _id, title, description, createdAt, price, images, currentOwner } =
-      product;
+    var {
+      _id,
+      title,
+      description,
+      createdAt,
+      price,
+      images,
+      currentOwner,
+      reportId,
+    } = product;
   }
 
   const handleClose = () => {
     setOTOpen(false);
+  };
+
+  const handleFound = async () => {
+    markFound(_id)
+      .then((res) => {
+        alert.success("Marked found");
+      })
+      .catch((err) => {
+        alert.error(err);
+      });
   };
 
   useEffect(() => {
@@ -54,6 +78,12 @@ const ProductInfo = () => {
     <div className={style["productInfoWrapper"]}>
       <div className={style["productDetailsWrapper"]}>
         <Heading>Product Details</Heading>
+        {reportId && (
+          <BannerMessage
+            text="This product is reported as STOLEN"
+            color="danger"
+          />
+        )}
         <header className={style["header"]}>
           <div className={style["info"]}>
             <label>Ref id : </label>
@@ -90,13 +120,24 @@ const ProductInfo = () => {
         </div>
         {currentOwner && id && currentOwner.toString() === id.toString() && (
           <div className={style["actionBtnsWrapper"]}>
-            <Rectangle
-              onClick={() => setOTOpen(true)}
-              className={style["transfer-btn"]}
-            >
-              Transfer Ownership
-            </Rectangle>
-            <Rectangle className={style["report"]}>Report Stolen</Rectangle>
+            {!reportId ? (
+              <>
+                <Rectangle
+                  onClick={() => setOTOpen(true)}
+                  className={style["transfer-btn"]}
+                >
+                  Transfer Ownership
+                </Rectangle>
+                <Rectangle
+                  className={style["report"]}
+                  onClick={() => setRSOpen(true)}
+                >
+                  Report Stolen
+                </Rectangle>
+              </>
+            ) : (
+              <Rectangle onClick={handleFound}>Report Found</Rectangle>
+            )}
           </div>
         )}
       </div>
@@ -108,6 +149,7 @@ const ProductInfo = () => {
 
       {/* Modal */}
       <TransferOwnershipModal open={OTOpen} handleClose={handleClose} />
+      <ReportStolenModal open={RSOpen} handleClose={() => setRSOpen(false)} />
     </div>
   );
 };

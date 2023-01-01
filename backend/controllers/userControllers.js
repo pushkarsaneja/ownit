@@ -164,8 +164,8 @@ exports.getUserTransactions = async (req, res, next) => {
         path: "transactions",
         select: "-_id",
         populate: [
-          { path: "to", select: "name" },
-          { path: "from", select: "name" },
+          { path: "to", select: "name id" },
+          { path: "from", select: "name id" },
           { path: "product", select: "title images" },
         ],
       });

@@ -14,7 +14,7 @@ const productSchema = new schema({
   manufacturer: {
     type: schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Product Manufacture is required"],
+    required: [true, "Manufacture is required"],
   },
   currentOwner: {
     type: schema.Types.ObjectId,
@@ -47,9 +47,11 @@ const productSchema = new schema({
       type: String,
     },
   ],
-  stolen: {
-    type: Boolean,
-    default: false,
+
+  reportId: {
+    type: schema.Types.ObjectId,
+    ref: "Report",
+    default: null,
   },
   createdAt: {
     type: Date,

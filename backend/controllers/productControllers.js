@@ -115,7 +115,7 @@ exports.getProductOwnerships = async (req, res, next) => {
 exports.getAllPorducts = async (req, res, next) => {
   try {
     const products = await Product.find().select(
-      "_id title ownerships currentOwner"
+      "_id title ownerships currentOwner reportId"
     );
     res.status(201).json({
       success: true,
