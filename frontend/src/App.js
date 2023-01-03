@@ -5,7 +5,7 @@ import VerifyProduct from "./pages/VerifyProduct";
 import ProductInfo from "./pages/ProductInfo";
 import ScanQr from "./pages/ScanQr";
 import { useSelector } from "react-redux";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/signin";
 import Protected from "./components/Protected";
 import Home from "./pages/home";
 import Manufacturer from "./pages/manufacturer";
@@ -17,7 +17,7 @@ import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/transactions";
-import SingleReport from "./pages/Dashboard/SingleReport";
+import ReportDetails from "./pages/Dashboard/ReportDetails";
 import TransactionInfo from "./pages/TransactionInfo";
 
 const App = () => {
@@ -115,7 +115,7 @@ const App = () => {
                 isAuthority={isAuthority}
                 isAuthorityRoute={true}
               >
-                <SingleReport />
+                <ReportDetails />
               </Protected>
             }
           />
