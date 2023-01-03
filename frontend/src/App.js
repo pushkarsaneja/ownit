@@ -17,6 +17,7 @@ import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/transactions";
+import SingleReport from "./pages/Dashboard/SingleReport";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
@@ -102,7 +103,19 @@ const App = () => {
               </Protected>
             }
           />
-
+          <Route
+            exact
+            path="/report/:reportId"
+            element={
+              <Protected
+                authenticated={authenticated}
+                isAuthority={isAuthority}
+                isAuthorityRoute={true}
+              >
+                <SingleReport />
+              </Protected>
+            }
+          />
           <Route
             exact
             path="/profile"
