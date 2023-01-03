@@ -51,6 +51,10 @@ exports.getReportDetails = async (req, res, next) => {
         path: "reportedUser",
         select: "name email profile",
       },
+      {
+        path: "resolvedUser",
+        select: "name profile",
+      },
     ]);
     res.status(200).json({
       success: true,
@@ -61,53 +65,92 @@ exports.getReportDetails = async (req, res, next) => {
   }
 };
 
-exports.getAllReports = async (req, res, next) => {
+// exports.getAllReports = async (req, res, next) => {
+//   try {
+//     const reports = await Report.find().populate([
+//       {
+//         path: "productId",
+//         select: "title images",
+//       },
+//       {
+//         path: "reportedUser",
+//         select: "name email profile",
+//       },
+//     ]);
+//     res.status(200).json({
+//       success: true,
+//       reports,
+//     });
+//   } catch (err) {
+//     return next(new ErrorHandler(err));
+//   }
+// };
+
+exports.updateReportStatus = async (req, res, next) => {
   try {
-    const reports = await Report.find().populate([
+    let { reportId, productId, status, remarks = null } = req.body;
+
+    status = status.toString().toLowerCase();
+
+    await Report.findByIdAndUpdate(
+      { _id: reportId },
       {
-        path: "productId",
-        select: "title images",
-      },
-      {
-        path: "reportedUser",
-        select: "name email profile",
-      },
-    ]);
+        $set: {
+          remarks: remarks,
+          resolvedUser: req.user.id,
+          resolvedDate: Date.now(),
+          status: status,
+        },
+      }
+    );
+    if (status === "closed") {
+      await Product.findByIdAndUpdate(
+        { _id: productId },
+        {
+          $set: {
+            reportId: null,
+          },
+        }
+      );
+    }
     res.status(200).json({
       success: true,
-      reports,
     });
   } catch (err) {
     return next(new ErrorHandler(err));
   }
 };
 
-exports.markProductAsUnstolen = async (req, res, next) => {
+const getReportsData = async () => {
+  const reports = await Report.find({}).populate([
+    {
+      path: "productId",
+      select: "title",
+    },
+    {
+      path: "reportedUser",
+      select: "name profile",
+    },
+    {
+      path: "resolvedUser",
+      select: "name profile",
+    },
+  ]);
+  // const reports = new Date(Date.now()).toLocaleTimeString();
+  return reports;
+};
+
+exports.streamReportData = async (req, res, next) => {
   try {
-    const { productId } = req.body;
-    const product = await Product.findOne({ _id: productId }).select(
-      "reportId"
-    );
-    console.log(product.reportId);
-    await Report.findByIdAndUpdate(
-      { _id: product.reportId },
-      {
-        $set: {
-          resolvedUser: req.user.id,
-          resolvedDate: Date.now(),
-        },
-      }
-    );
-    await Product.findByIdAndUpdate(
-      { _id: productId },
-      {
-        $set: {
-          reportId: null,
-        },
-      }
-    );
-    res.status(200).json({
-      success: true,
+    let interval = setInterval(async () => {
+      const data = await getReportsData();
+      res.sendEventStreamData(data);
+    }, 10000);
+
+    // on closing the server emit event
+    req.on("close", () => {
+      clearInterval(interval);
+      res.end();
     });
   } catch (err) {
     return next(new ErrorHandler(err));
