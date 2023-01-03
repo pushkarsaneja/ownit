@@ -2,8 +2,34 @@
   width: 100%;
   display: flex;
   position: relative;
-  height: calc(100vh - 50px);
-  padding-bottom: 3rem;
+  flex-direction: row;
+  flex: 1;
+  padding: 2rem 0;
+  overflow-y: scroll;
+
+  @media screen and (max-width: 1280px) {
+    flex-direction: column;
+
+    .productDetailsWrapper {
+      width: 100%;
+      border: none;
+      height: auto;
+    }
+
+    .ownershipTimelineWrapper {
+      width: 100%;
+      height: auto;
+    }
+
+    .header {
+      flex-direction: column;
+      align-items: center;
+
+      .info {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
 }
 .productDetailsWrapper {
   display: flex;
@@ -11,8 +37,31 @@
   align-items: center;
   width: 60%;
   padding: 10px;
-  overflow-y: scroll;
-  //   background-color: rgb(222, 126, 43);
+  // overflow-y: auto;
+  height: 100%;
+  border-right: 1px solid var(--primary);
+
+  .actionBtnsWrapper {
+    // color: red;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    // margin: 0 auto;
+
+    button {
+      width: 250px;
+    }
+
+    .transfer-btn {
+      background-color: var(--success);
+    }
+
+    .report {
+      background-color: var(--caution);
+    }
+  }
 }
 .header {
   margin: 1rem 0;
@@ -22,8 +71,6 @@
 }
 .info {
   font-size: 1.2rem;
-  label {
-  }
   p {
     display: inline;
     font-weight: 700;
@@ -32,30 +79,43 @@
 
 .imageWrapper {
   text-align: center;
-}
-.productTitle {
-  margin: 10px 0;
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+
+  & > img {
+    border-radius: 5px;
+    height: 100%;
+  }
 }
 .productDetails {
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  .productTitle {
+    margin: 10px 0;
+  }
+  .productPrice {
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    color: var(--gray);
+  }
+  .productDescription {
+    text-align: justify;
+  }
 }
-.productPrice {
-  font-size: 1.3rem;
-  margin: 1rem 0;
-  color: var(--gray);
-}
+
 .ownershipTimelineWrapper {
   display: flex;
   width: 40%;
   flex-direction: column;
-  position: sticky;
   top: 0px;
   right: 0;
   height: 90vh;
-  overflow-y: scroll;
+  // overflow-y: auto;
   align-items: center;
+  height: 100%;
 }
 
 .transferOwnershipWrapper {
@@ -125,13 +185,6 @@
       cursor: pointer;
       margin-left: 10px;
     }
-  }
-  .actionsBtnWrapper {
-    // color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // margin: 0 auto;
   }
 }
 

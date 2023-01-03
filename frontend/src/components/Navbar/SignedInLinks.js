@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { userActions } from "../../redux/userSlice";
@@ -6,6 +6,8 @@ import Ghost from "../Buttons/Ghost";
 import style from "./style.module.scss";
 import metaIcon from "../../assets/images/metamask.png";
 import powerIcon from "../../assets/images/power.png";
+import menuIcon from "../../assets/icons/hamburger.png";
+import closeIcon from "../../assets/icons/closePurple.png";
 
 const LINKS = [
   {
@@ -47,6 +49,7 @@ const LINKS = [
 ];
 
 function SignedInLinks({ role }) {
+  const [showMenu, setShowMenu] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -60,36 +63,89 @@ function SignedInLinks({ role }) {
     );
   };
   return (
-    <ul className={`${style["links-list"]}`}>
-      {LINKS.map((link) => {
-        if (link.role === null || link.role === role)
-          return (
-            <li
-              className={`${style["link"]} ${
-                location.pathname === link.to ? `${style["active"]}` : ""
-              }`}
-            >
-              <Link to={link.to}>{link.title}</Link>
-            </li>
-          );
-      })}
-      <li>
-        <Ghost className={style["connect-wallet"]} onClick={() => {}}>
-          <div>
-            <img src={metaIcon} alt="" />
-            Connect Wallet
-          </div>
-        </Ghost>
-      </li>
-      <li>
-        <Ghost className={style["logout-btn"]} onClick={handleLogout}>
-          <div>
-            <img src={powerIcon} alt="" />
-            Logout
-          </div>
-        </Ghost>
-      </li>
-    </ul>
+    <>
+      <ul className={`${style["links-list"]}`}>
+        {LINKS.map((link, idx) => {
+          if (link.role === null || link.role === role)
+            return (
+              <li
+                key={idx}
+                className={`${style["link"]} ${
+                  location.pathname === link.to ? `${style["active"]}` : ""
+                }`}
+              >
+                <Link to={link.to}>{link.title}</Link>
+              </li>
+            );
+          return null;
+        })}
+        <li>
+          <Ghost className={style["connect-wallet"]} onClick={() => {}}>
+            <div>
+              <img src={metaIcon} alt="" />
+              Connect Wallet
+            </div>
+          </Ghost>
+        </li>
+        <li>
+          <Ghost className={style["logout-btn"]} onClick={handleLogout}>
+            <div>
+              <img src={powerIcon} alt="" />
+              Logout
+            </div>
+          </Ghost>
+        </li>
+      </ul>
+      <button
+        className={style["hamburger-menu"]}
+        onClick={() => {
+          setShowMenu((prev) => !prev);
+        }}
+      >
+        <img src={showMenu ? closeIcon : menuIcon} alt="" />
+      </button>
+      <div
+        className={`${style["menu-bar-container"]} ${
+          showMenu ? "" : style["hide"]
+        }`}
+        onClick={() => {
+          setShowMenu((prev) => !prev);
+        }}
+      >
+        <div className={style["menu-bar"]}>
+          {LINKS.map((link, idx) => {
+            if (link.role === null || link.role === role)
+              return (
+                <li
+                  key={idx}
+                  className={`${style["link"]} ${
+                    location.pathname === link.to ? `${style["active"]}` : ""
+                  }`}
+                >
+                  <Link to={link.to}>{link.title}</Link>
+                </li>
+              );
+            return null;
+          })}
+          <li>
+            <Ghost className={style["connect-wallet"]} onClick={() => {}}>
+              <div>
+                <img src={metaIcon} alt="" />
+                Connect Wallet
+              </div>
+            </Ghost>
+          </li>
+          <li>
+            <Ghost className={style["logout-btn"]} onClick={handleLogout}>
+              <div>
+                <img src={powerIcon} alt="" />
+                Logout
+              </div>
+            </Ghost>
+          </li>
+        </div>
+      </div>
+    </>
   );
 }
 

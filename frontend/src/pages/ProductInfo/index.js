@@ -9,6 +9,7 @@ import { getProduct } from "../VerifyProduct/logic";
 import style from "./style.module.scss";
 import TransferOwnershipModal from "./TransferOwnershipModal";
 import notFound from "../../assets/images/imgNotFound.webp";
+import Primary from "../../components/Buttons/Primary";
 import ReportStolenModal from "./ReportStolenModal";
 import BannerMessage from "../../components/bannerMessage";
 import { markFound } from "./logic";
@@ -22,7 +23,7 @@ const ProductInfo = () => {
   const [RSOpen, setRSOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { product } = useSelector((state) => state.currentProduct);
-
+  const [showQR, setShowQR] = useState(false);
   const { id } = useSelector((state) => state.user);
 
   if (product) {
@@ -94,25 +95,43 @@ const ProductInfo = () => {
           </div>
         </header>
         <div className={style["imageWrapper"]}>
-          {images && images.length === 0 ? (
-            <img src={notFound} />
-          ) : (
-            <img src={images ? images[0] : ""} />
-          )}
+          <img
+            src={
+              showQR
+                ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${_id}`
+                : images && images.length === 0
+                ? notFound
+                : images[0]
+            }
+            alt=""
+          />
         </div>
+        <Primary
+          onClick={() => {
+            setShowQR((prev) => !prev);
+          }}
+        >
+          {showQR ? "Hide QR" : "Reveal QR"}
+        </Primary>
         <div className={style["productDetails"]}>
           <h2 className={style["productTitle"]}>{title}</h2>
           <p className={style["productDescription"]}>{description}</p>
           <h3 className={style["productPrice"]}>₹ {price}</h3>
         </div>
         {currentOwner && id && currentOwner.toString() === id.toString() && (
-          <div className="actionBtnsWrapper">
+          <div className={style["actionBtnsWrapper"]}>
             {!reportId ? (
               <>
-                <Rectangle onClick={() => setOTOpen(true)}>
+                <Rectangle
+                  onClick={() => setOTOpen(true)}
+                  className={style["transfer-btn"]}
+                >
                   Transfer Ownership
                 </Rectangle>
-                <Rectangle onClick={() => setRSOpen(true)}>
+                <Rectangle
+                  className={style["report"]}
+                  onClick={() => setRSOpen(true)}
+                >
                   Report Stolen
                 </Rectangle>
               </>

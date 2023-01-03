@@ -7,6 +7,10 @@
   padding: 0.5rem;
   font-size: 1.1rem;
   margin: 1rem;
+
+  @media screen and (max-width: 550px) {
+    min-width: 200px;
+  }
 }
 
 .input:focus {

@@ -93,9 +93,20 @@ const NewProduct = () => {
               setFormData({ ...formData, description: e.target.value });
             }}
           />
+          <InputHandler
+            className={style["input"]}
+            placeholder="Quantity"
+            value={formData.qty >= 1 ? formData.qty : ""}
+            type="number"
+            onChange={(e) => {
+              setFormData({ ...formData, qty: e.target.value });
+            }}
+          />
         </div>
       </div>
-      <Primary onClick={onsubmitHandler}>Add Product</Primary>
+      <Primary onClick={onsubmitHandler}>
+        {formData.qty > 1 ? "Add Products" : "Add Product"}
+      </Primary>
     </div>
   );
 };

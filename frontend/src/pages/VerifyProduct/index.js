@@ -30,7 +30,7 @@ const VerifyProduct = () => {
   };
 
   return (
-    <div className={`${style["verify-product-page"]} page`}>
+    <div className={`${style["verify-product-page"]}`}>
       <div className={style["left-container"]}>
         <h1>Verify Your Product Easily</h1>
         <h2>Enter your Reference Id or Scan and it's done.</h2>
