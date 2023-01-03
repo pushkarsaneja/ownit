@@ -65,10 +65,11 @@ function SignedInLinks({ role }) {
   return (
     <>
       <ul className={`${style["links-list"]}`}>
-        {LINKS.map((link) => {
+        {LINKS.map((link, idx) => {
           if (link.role === null || link.role === role)
             return (
               <li
+                key={idx}
                 className={`${style["link"]} ${
                   location.pathname === link.to ? `${style["active"]}` : ""
                 }`}
@@ -112,10 +113,11 @@ function SignedInLinks({ role }) {
         }}
       >
         <div className={style["menu-bar"]}>
-          {LINKS.map((link) => {
+          {LINKS.map((link, idx) => {
             if (link.role === null || link.role === role)
               return (
                 <li
+                  key={idx}
                   className={`${style["link"]} ${
                     location.pathname === link.to ? `${style["active"]}` : ""
                   }`}

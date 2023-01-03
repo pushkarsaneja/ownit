@@ -26,9 +26,10 @@ function SignedOutLinks() {
   return (
     <>
       <ul className={`${style["links-list"]}`}>
-        {LINKS.map((link) => {
+        {LINKS.map((link, idx) => {
           return (
             <li
+              key={idx}
               className={`${style["link"]} ${
                 location.pathname === link.to ? `${style["active"]}` : ""
               }`}
@@ -55,9 +56,9 @@ function SignedOutLinks() {
         }}
       >
         <div className={style["menu-bar"]}>
-          {LINKS.map((link) => {
+          {LINKS.map((link, idx) => {
             return (
-              <div>
+              <div key={idx}>
                 <li
                   className={`${style["link"]} ${
                     location.pathname === link.to ? `${style["active"]}` : ""

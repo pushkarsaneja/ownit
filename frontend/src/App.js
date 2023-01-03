@@ -16,7 +16,8 @@ import Test from "./pages/test";
 import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
-import Transactions from "./pages/transactions";
+import Transactions from "./pages/Transactions";
+import TransactionInfo from "./pages/TransactionInfo";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
@@ -34,6 +35,8 @@ const App = () => {
           <Route path="/verifyproduct/scan" element={<ScanQr />} />
           <Route path="/assets" element={<Assets />} />
           <Route path="/productinfo/:refId" element={<ProductInfo />} />
+          <Route path="/lot/:lotId" element={<ProductInfo />} />
+          <Route path="/transaction/:trxnId" element={<TransactionInfo />} />
           <Route
             exact
             path={"/auth"}

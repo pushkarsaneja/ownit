@@ -86,20 +86,18 @@ function TransferOwnershipModal({ open, handleClose }) {
                 </div>
                 <div className={style["infoWrapper"]}>
                   <table>
-                    <tbody>
-                      <tr>
-                        <td className={style["label"]}> UserID:</td>
-                        <td className={style["value"]}>{toInfo?._id}</td>
-                      </tr>
-                      <tr>
-                        <td className={style["label"]}>Name :</td>
-                        <td className={style["value"]}>{toInfo?.name}</td>
-                      </tr>
-                      <tr>
-                        <td className={style["label"]}>Email :</td>
-                        <td className={style["value"]}>{toInfo?.email}</td>
-                      </tr>
-                    </tbody>
+                    <tr>
+                      <td className={style["label"]}> UserID:</td>
+                      <td className={style["value"]}>{toInfo?._id}</td>
+                    </tr>
+                    <tr>
+                      <td className={style["label"]}>Name :</td>
+                      <td className={style["value"]}>{toInfo?.name}</td>
+                    </tr>
+                    <tr>
+                      <td className={style["label"]}>Email :</td>
+                      <td className={style["value"]}>{toInfo?.email}</td>
+                    </tr>
                   </table>
                 </div>
               </>
