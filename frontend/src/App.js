@@ -7,18 +7,17 @@ import ScanQr from "./pages/ScanQr";
 import { useSelector } from "react-redux";
 import SignIn from "./pages/signin";
 import Protected from "./components/Protected";
-import Home from "./pages/home";
 import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";
 import Navbar from "./components/Navbar";
 import Assets from "./pages/Assets";
 import Test from "./pages/test";
-import Main from "./pages/Main";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/transactions";
 import ReportDetails from "./pages/Dashboard/ReportDetails";
 import TransactionInfo from "./pages/TransactionInfo";
+import Lot from "./pages/Lot";
 
 const App = () => {
   const { authenticated, role } = useSelector((state) => state.user);
@@ -31,12 +30,11 @@ const App = () => {
         <Navbar authenticated={authenticated} role={role} />
         <Routes>
           <Route path="/verifyproduct" element={<VerifyProduct />} />
-          <Route path="/main" element={<Main />} />
           <Route path="/test" element={<Test />} />
           <Route path="/verifyproduct/scan" element={<ScanQr />} />
           <Route path="/assets" element={<Assets />} />
-          <Route path="/productinfo/:refId" element={<ProductInfo />} />
-          <Route path="/lot/:lotId" element={<ProductInfo />} />
+          <Route path="/product/:refId" element={<ProductInfo />} />
+          <Route path="/lot/:lotId" element={<Lot />} />
           <Route path="/transaction/:trxnId" element={<TransactionInfo />} />
           <Route
             exact
@@ -49,7 +47,7 @@ const App = () => {
             path={"/"}
             element={
               <Protected authenticated={authenticated}>
-                <Home />
+                <Profile />
               </Protected>
             }
           />

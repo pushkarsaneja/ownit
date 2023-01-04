@@ -18,7 +18,7 @@ const VerifyProduct = () => {
     if (refId.trim() === "") return;
     try {
       await getProduct(refId);
-      navigate(`/productinfo/${refId}`);
+      navigate(`/product/${refId}`);
     } catch (err) {
       alert.error("Product Not Found");
       console.log("Product Not found");

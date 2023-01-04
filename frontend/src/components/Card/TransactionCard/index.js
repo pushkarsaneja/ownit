@@ -50,7 +50,7 @@ const TransactionCard = ({
         </div>
         <div className={style["right"]}>
           <div className={style["date"]}>
-            <span className={style["type"]}>Date : </span>
+            <span className={style["text"]}>Date : </span>
             {date}
           </div>
           <div className={style["cost"]}>₹{cost}</div>

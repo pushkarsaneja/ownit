@@ -39,7 +39,7 @@ const TransactionInfo = () => {
         <div
           className={style["product-details"]}
           onClick={() => {
-            navigate(`/productinfo/${"product_id"}`);
+            navigate(`/product/12345`);
           }}
         >
           <img
