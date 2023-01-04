@@ -81,6 +81,7 @@ exports.updatePersonalInfo = async (req, res, next) => {
         email: user.email,
         phone: user.phone,
         _id: user._id,
+        profile: user.profile,
       },
     });
   } catch (err) {

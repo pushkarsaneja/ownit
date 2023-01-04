@@ -4,6 +4,7 @@ import EditPersonalInfoModal from "./Modals/EditPersonalInfoModal";
 import { useAlert } from "react-alert";
 import style from "./style.module.scss";
 import SubHeading from "../../components/SubHeading/index";
+import imageNotFound from "../../assets/images/imgNotFound.webp";
 
 function PersonalInfo() {
   const alert = useAlert();
@@ -51,15 +52,13 @@ function PersonalInfo() {
           <div className={`${style["content"]}`}>
             <div className={`${style["left"]}`}>
               <div className={`${style["imageWrapper"]}`}>
-                {data?.profile && (
-                  <img
-                    src={data?.profile}
-                    alt="Profile_Pic"
-                    className={`${style["image"]}`}
-                    width="200px"
-                    height="200px"
-                  />
-                )}
+                <img
+                  src={data?.profile || imageNotFound}
+                  alt="Profile_Pic"
+                  className={`${style["image"]}`}
+                  width="200px"
+                  height="200px"
+                />
               </div>
               <p>{data?.name || "-"}</p>
             </div>

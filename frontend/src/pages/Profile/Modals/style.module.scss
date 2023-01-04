@@ -53,25 +53,51 @@
   font-size: 1.2rem;
   font-weight: 700;
 }
-.table {
-  padding-left: 30px;
-  margin-left: 40px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  border-spacing: 0 1.3em;
-  tr {
-    // background: red;
-    padding: 3px;
-    font-size: 1.2rem;
-    td {
-      .input {
+
+.editWrapper {
+  display: flex;
+  .left {
+    width: 40%;
+    .imageWrapper {
+      width: 100%;
+      position: relative;
+      .actionBtns {
+        position: absolute;
+        bottom: -20px;
+        width: 100%;
+        .editBtn {
+          font-size: 1.3rem;
+        }
+        .closeBtn {
+        }
+      }
+    }
+  }
+  .right {
+    padding-left: 2rem;
+    display: flex;
+    align-items: stretch;
+    .table {
+      margin: 0 auto;
+      max-width: 400px;
+      text-align: left;
+      // border-spacing: 0 0.5em;
+      tr {
+        // background: red;
+        padding: 3px;
         font-size: 1.2rem;
-        outline: none;
-        border: none;
-        border-bottom: 2px solid black;
-        &:focus {
-          border-color: var(--primary);
+        td {
+          .input {
+            font-size: 1.2rem;
+            outline: none;
+            border: none;
+            margin: 1rem 0;
+            padding: 0 10px;
+            border-bottom: 2px solid black;
+            &:focus {
+              border-color: var(--primary);
+            }
+          }
         }
       }
     }
