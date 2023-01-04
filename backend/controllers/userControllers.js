@@ -184,7 +184,8 @@ exports.getUserTransactions = async (req, res, next) => {
       .sort({ "transactions.timestamp": sort });
 
     let transactions = user.transactions.filter(
-      (item) => item.product.title.search(search) >= 0
+      (item) =>
+        item.product.title.toLowerCase().search(search.toLowerCase()) >= 0
     );
     user.transactions = transactions;
     res.status(200).json({
