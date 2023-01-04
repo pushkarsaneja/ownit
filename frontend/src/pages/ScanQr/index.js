@@ -35,7 +35,7 @@ const ScanQr = () => {
   useEffect(() => {
     if (result) {
       setScan(false);
-      navigate(`/productinfo/${result}`);
+      navigate(`/product/${result}`);
     }
   }, [result, navigate]);
 

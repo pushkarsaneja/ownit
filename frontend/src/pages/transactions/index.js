@@ -6,6 +6,7 @@ import { getTransactions } from "./logic";
 import TransactionCard from "../../components/Card/TransactionCard";
 import style from "./style.module.scss";
 import SearchSort from "../../components/SearchSort";
+import Heading from "../../components/Heading";
 
 function Transactions() {
   const alert = useAlert();
@@ -46,8 +47,11 @@ function Transactions() {
   };
 
   return (
-    <div className={style["transactionsWrapper"]}>
-      <SearchSort onSearch={onSearch} onSort={onSort} />
+    <div className={`${style["transactionsWrapper"]} page`}>
+      <div className={style["sticky-bar"]}>
+        <Heading>Transactions</Heading>
+        <SearchSort onSearch={onSearch} onSort={onSort} />
+      </div>
       {loading ? (
         <p>loading...</p>
       ) : data && data.length !== 0 ? (

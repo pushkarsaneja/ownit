@@ -6,6 +6,7 @@ import { products } from "../../sampleData/products";
 import { last } from "../../helperFunctions/last";
 import TransactionCard from "../../components/Card/TransactionCard";
 import SearchSort from "../../components/SearchSort";
+import Heading from "../../components/Heading";
 
 const currentUser = "6883237943";
 
@@ -35,7 +36,10 @@ const onSearch = (value) => {
 const Assets = () => {
   return (
     <div className={`${style["assets-page"]}`}>
-      <SearchSort onSearch={onSearch} onSort={onSort} />
+      <div className={style["sticky-bar"]}>
+        <Heading>Assets</Heading>
+        <SearchSort onSearch={onSearch} onSort={onSort} />
+      </div>
       <TransactionCard />
       <LotCard />
       <LotCard />

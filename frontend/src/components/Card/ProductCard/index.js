@@ -18,7 +18,7 @@ const ProductCard = ({
     <div
       className={`${style["product-card"]}`}
       onClick={() => {
-        navigate(`/productinfo/${id}`);
+        navigate(`/product/${id}`);
       }}
     >
       <img className={style["prod-img"]} src={img} alt="" />
