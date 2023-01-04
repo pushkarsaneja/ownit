@@ -5,7 +5,7 @@ import VerifyProduct from "./pages/VerifyProduct";
 import ProductInfo from "./pages/ProductInfo";
 import ScanQr from "./pages/ScanQr";
 import { useSelector } from "react-redux";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/signin";
 import Protected from "./components/Protected";
 import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";
@@ -14,7 +14,8 @@ import Assets from "./pages/Assets";
 import Test from "./pages/test";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
-import Transactions from "./pages/Transactions";
+import Transactions from "./pages/transactions";
+import ReportDetails from "./pages/Dashboard/ReportDetails";
 import TransactionInfo from "./pages/TransactionInfo";
 import Lot from "./pages/Lot";
 
@@ -103,7 +104,19 @@ const App = () => {
               </Protected>
             }
           />
-
+          <Route
+            exact
+            path="/report/:reportId"
+            element={
+              <Protected
+                authenticated={authenticated}
+                isAuthority={isAuthority}
+                isAuthorityRoute={true}
+              >
+                <ReportDetails />
+              </Protected>
+            }
+          />
           <Route
             exact
             path="/profile"

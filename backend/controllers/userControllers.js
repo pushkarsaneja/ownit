@@ -158,18 +158,34 @@ exports.deleteSingleAddress = async (req, res, next) => {
 
 exports.getUserTransactions = async (req, res, next) => {
   try {
+    const sort = req.query.sort === "asc" ? 1 : -1;
+    const search = req.query.search;
+
     const user = await User.findById(req.user.id)
       .select("name transactions")
       .populate({
         path: "transactions",
         select: "-_id",
+        options: {
+          sort: {
+            timestamp: sort,
+          },
+        },
         populate: [
           { path: "to", select: "name id" },
           { path: "from", select: "name id" },
-          { path: "product", select: "title images" },
+          {
+            path: "product",
+            select: "title images",
+          },
         ],
-      });
+      })
+      .sort({ "transactions.timestamp": sort });
 
+    let transactions = user.transactions.filter(
+      (item) => item.product.title.search(search) >= 0
+    );
+    user.transactions = transactions;
     res.status(200).json({
       success: true,
       user,

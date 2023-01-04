@@ -12,12 +12,12 @@ function Transactions() {
   const alert = useAlert();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  console.log(data);
+  const [sort, setSort] = useState("asc");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     setLoading(true);
-    getTransactions()
+    getTransactions(search, sort)
       .then((res) => {
         setData(res.user.transactions || []);
       })
@@ -28,22 +28,24 @@ function Transactions() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [sort, search]);
 
   const onSort = (ascending) => {
     if (ascending) {
       //handle ascending
+      setSort("asc");
       console.log("sort in ascending");
     } else {
       //handle descending
+      setSort("desc");
       console.log("Sort in descending");
     }
   };
 
   const onSearch = (value) => {
     //handle search
-
     console.log("Value:", value);
+    setSearch(value.trim());
   };
 
   return (
@@ -64,9 +66,9 @@ function Transactions() {
                 to_name={to?.name}
                 from_name={from?.name}
                 from={from?.id}
-                prod_name={product.title}
+                prod_name={product?.title}
                 date={new Date(timestamp).toLocaleDateString()}
-                img={product.images[0]}
+                img={product?.images[0] || ""}
                 cost={amount || "-"}
               />
             )

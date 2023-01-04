@@ -33,6 +33,15 @@ const reportSchema = new schema({
     type: Date,
     default: null,
   },
+  remarks: {
+    type: String,
+    default: null,
+  },
+  scanLocation: [
+    {
+      type: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Report", reportSchema);
