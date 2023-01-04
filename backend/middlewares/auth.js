@@ -24,10 +24,7 @@ exports.AuthorizeRole = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role.toLowerCase())) {
       return next(
-        new ErrorHandler(
-          `Role : ${req.user.role} is not allowed to access this resource`,
-          403
-        )
+        new ErrorHandler(`You is not allowed to access this resource`, 403)
       );
     }
     next();
