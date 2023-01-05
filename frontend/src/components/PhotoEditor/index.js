@@ -25,6 +25,8 @@ const PhotoEditor = ({
     });
   }, [setImgData]);
 
+  console.log(imgData);
+
   const [zoom, setZoom] = useState(1);
 
   const [hide, setHide] = useState(true);
@@ -37,7 +39,6 @@ const PhotoEditor = ({
       ...imgData,
       imgURL: URL.createObjectURL(e.target.files[0]),
     });
-    console.log(imgData);
   };
 
   const confirmSelection = () => {
@@ -89,6 +90,9 @@ const PhotoEditor = ({
           <input
             className={style["file-input"]}
             type="file"
+            onClick={(e) => {
+              e.target.value = "";
+            }}
             onChange={(e) => {
               discardSelection();
               onSelectHandler(e);
