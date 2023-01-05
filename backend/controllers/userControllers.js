@@ -185,7 +185,8 @@ exports.getUserTransactions = async (req, res, next) => {
 
     let transactions = user.transactions.filter(
       (item) =>
-        item.product.title.toLowerCase().search(search.toLowerCase()) >= 0
+        item.product.title.toLowerCase().search(search.toLowerCase()) >= 0 ||
+        item.to.name.toLowerCase().search(search.toLowerCase()) >= 0
     );
     user.transactions = transactions;
     res.status(200).json({
