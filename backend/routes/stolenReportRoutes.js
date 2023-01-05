@@ -12,12 +12,7 @@ const {
 
 const router = express.Router();
 
-router.post(
-  "/create",
-  isAuthenticatedUser,
-  AuthorizeRole("authority"),
-  createReport
-);
+router.post("/create", isAuthenticatedUser, createReport);
 router.get(
   "/streamReports",
   isAuthenticatedUser,
@@ -25,12 +20,7 @@ router.get(
   useServerSentEventsMiddleware,
   streamReportData
 );
-router.put(
-  "/update/status",
-  isAuthenticatedUser,
-  AuthorizeRole("authority"),
-  updateReportStatus
-);
+router.put("/update/status", isAuthenticatedUser, updateReportStatus);
 router.get(
   "/:reportId",
   isAuthenticatedUser,
