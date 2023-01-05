@@ -72,7 +72,7 @@ const ProductInfo = () => {
   if (!loading && !_id)
     return (
       <div>
-        <h3 style={{ textAlign: "center" }}>Product does exists</h3>
+        <h3 style={{ textAlign: "center" }}>Product does not exist</h3>
       </div>
     );
   return (
