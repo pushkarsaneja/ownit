@@ -6,13 +6,13 @@ exports.addAddress = async (req, res, next) => {
   const { address } = req.body;
   if (!address) return next(new ErrorHandler("No Address", 401));
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
     const old = user.address;
     let newData = [];
     if (old) newData = [...old, address];
     else newData = [address];
     const updatedUser = await User.findOneAndUpdate(
-      { _id: req.user.id },
+      { _id: req.user._id },
       {
         $set: { address: newData },
       },
@@ -33,7 +33,7 @@ exports.updateAddress = async (req, res, next) => {
   const { updatedAddress, addressId } = req.body;
   try {
     const user = await User.updateOne(
-      { _id: req.user.id, "address._id": addressId },
+      { _id: req.user._id, "address._id": addressId },
       {
         $set: {
           "candidates.$.addressLine": updatedAddress.addressLine,
@@ -54,7 +54,7 @@ exports.updateAddress = async (req, res, next) => {
 
 exports.getAllAddress = async (req, res, next) => {
   try {
-    const user = await User.findOne({ _id: req.user.id }, "address");
+    const user = await User.findOne({ _id: req.user._id }, "address");
     res.status(200).json({
       success: true,
       addresses: user.address,
@@ -68,7 +68,7 @@ exports.updatePersonalInfo = async (req, res, next) => {
   try {
     const { personalInfo } = req.body;
     const user = await User.findOneAndUpdate(
-      { _id: req.user.id },
+      { _id: req.user._id },
       { ...personalInfo },
       {
         new: true,
@@ -81,6 +81,7 @@ exports.updatePersonalInfo = async (req, res, next) => {
         email: user.email,
         phone: user.phone,
         _id: user._id,
+        profile: user.profile,
       },
     });
   } catch (err) {
@@ -91,8 +92,8 @@ exports.updatePersonalInfo = async (req, res, next) => {
 exports.getPersonalInfo = async (req, res, next) => {
   try {
     const user = await User.find(
-      { _id: req.user.id },
-      "name email phone profile createdAt id"
+      { _id: req.user._id },
+      "name email phone profile createdAt"
     );
 
     res.status(200).json({
@@ -132,7 +133,7 @@ exports.deleteSingleAddress = async (req, res, next) => {
   try {
     const user = await User.findOneAndUpdate(
       {
-        _id: req.user.id,
+        _id: req.user._id,
       },
       {
         $pull: {
@@ -161,7 +162,7 @@ exports.getUserTransactions = async (req, res, next) => {
     const sort = req.query.sort === "asc" ? 1 : -1;
     const search = req.query.search;
 
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user._id)
       .select("name transactions")
       .populate({
         path: "transactions",
@@ -183,7 +184,9 @@ exports.getUserTransactions = async (req, res, next) => {
       .sort({ "transactions.timestamp": sort });
 
     let transactions = user.transactions.filter(
-      (item) => item.product.title.search(search) >= 0
+      (item) =>
+        item.product.title.toLowerCase().search(search.toLowerCase()) >= 0 ||
+        item.to.name.toLowerCase().search(search.toLowerCase()) >= 0
     );
     user.transactions = transactions;
     res.status(200).json({
@@ -197,7 +200,7 @@ exports.getUserTransactions = async (req, res, next) => {
 
 exports.getUserOwnerships = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.user._id)
       .select("name allAssests")
       .populate({
         path: "allAssests",

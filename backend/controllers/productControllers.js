@@ -36,13 +36,13 @@ exports.postProduct = async (req, res, next) => {
 
     const product = await Product.create({
       ...req.body,
-      currentOwner: req.user.id,
-      ownerships: [{ user: req.user.id, date: Date.now() }],
-      manufacturer: req.user.id,
+      currentOwner: req.user._id,
+      ownerships: [{ user: req.user._id, date: Date.now() }],
+      manufacturer: req.user._id,
     });
 
     await User.findOneAndUpdate(
-      { _id: req.user.id },
+      { id: req.user._id },
       {
         $push: {
           currentAssests: product._id,
@@ -81,7 +81,7 @@ exports.getProduct = async (req, res, next) => {
 
 exports.getMyProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({ currentConsumer: req.user.id });
+    const products = await Product.find({ currentConsumer: req.user._id });
     res.status(201).json({
       success: true,
       products,

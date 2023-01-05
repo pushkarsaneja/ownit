@@ -10,7 +10,6 @@ import { last } from "../../../helperFunctions/last";
 import style from "../style.module.scss";
 
 const soldOn = (owners, currentUser) => {
-  console.log(owners);
   for (let i = owners.length - 1; i >= 0; i--) {
     if (owners[i].user.toString() === currentUser)
       return new Date(owners[i].date).toLocaleDateString();
@@ -28,6 +27,7 @@ function OwnershipsList() {
     setLoading(true);
     getOwnerships()
       .then((res) => {
+        console.log(res);
         setData(res.user.allAssests);
       })
       .catch((err) => {
@@ -50,20 +50,24 @@ function OwnershipsList() {
           <h5>No current Ownerships</h5>
         ) : (
           <>
-            {data.map((prod) => (
-              <ProductCard
-                id={prod._id} //mongo id
-                name={prod.name}
-                nft={prod.nft}
-                isOwner={id.toString() === prod.currentOwner.toString()}
-                img={prod.images[0]}
-                date={
-                  id.toString() === prod.currentOwner.toString()
-                    ? new Date(last(prod.ownerships).date).toLocaleDateString()
-                    : soldOn(prod.ownerships, prod.currentOwner.toString())
-                }
-              />
-            ))}
+            {data &&
+              data.map((prod, idx) => (
+                <ProductCard
+                  key={idx}
+                  id={prod._id} //mongo id
+                  name={prod.name}
+                  nft={prod.nft}
+                  isOwner={id.toString() === prod.currentOwner.toString()}
+                  img={prod.images[0]}
+                  date={
+                    id.toString() === prod.currentOwner.toString()
+                      ? new Date(
+                          last(prod.ownerships).date
+                        ).toLocaleDateString()
+                      : soldOn(prod.ownerships, prod.currentOwner.toString())
+                  }
+                />
+              ))}
           </>
         )}
       </div>

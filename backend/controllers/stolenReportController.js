@@ -10,7 +10,7 @@ exports.createReport = async (req, res, next) => {
     }
 
     const product = await Product.findById(productId);
-    if (product.currentOwner.toString() !== req.user.id.toString()) {
+    if (product.currentOwner.toString() !== req.user._id.toString()) {
       return next(
         new ErrorHandler("You are not the current owner of the product", 401)
       );
@@ -18,7 +18,7 @@ exports.createReport = async (req, res, next) => {
     const report = await Report.create({
       productId,
       reportingDate: Date.now(),
-      reportedUser: req.user.id,
+      reportedUser: req.user._id,
     });
 
     await Product.findOneAndUpdate(
@@ -97,7 +97,7 @@ exports.updateReportStatus = async (req, res, next) => {
       {
         $set: {
           remarks: remarks,
-          resolvedUser: req.user.id,
+          resolvedUser: req.user._id,
           resolvedDate: Date.now(),
           status: status,
         },

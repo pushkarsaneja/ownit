@@ -10,10 +10,7 @@ const userSchema = new schema({
     maxLength: [30, "cannot exceed 30 characters"],
     minLength: [4, "name should have more than 3 characters"],
   },
-  id: {
-    type: String,
-    required: [true, "enter your User id"],
-  },
+
   email: {
     type: String,
     required: [true, "enter your Email ID"],
