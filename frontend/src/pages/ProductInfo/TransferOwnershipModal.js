@@ -8,7 +8,7 @@ import Modal from "../../components/Modal";
 import { getSearchUser, tranferOwnership } from "./logic";
 import style from "./style.module.scss";
 
-function TransferOwnershipModal({ open, handleClose }) {
+function TransferOwnershipModal({ open, handleClose, setToggle }) {
   const [formData, setFormData] = useState({
     searchText: null,
   });
@@ -42,6 +42,7 @@ function TransferOwnershipModal({ open, handleClose }) {
         alert.success("Ownership Transffered");
 
         handleClose();
+        setToggle((pre) => !pre);
       })
       .catch((err) => {
         alert.error(err);
@@ -107,17 +108,17 @@ function TransferOwnershipModal({ open, handleClose }) {
           </div>
         )}
 
-        <div className={style["actionsBtnWrapper"]}>
-          {toInfo && (
-            <Rectangle
-              color="success"
-              className={style["transferBtn"]}
-              onClick={handleTransferClick}
-            >
-              {loading.transfer ? "Transferring..." : "Transfer"}
-            </Rectangle>
-          )}
-        </div>
+        {/* <div className={style["transWrapper"]}> */}
+        {toInfo && (
+          <Rectangle
+            color="success"
+            className={style["transferBtn"]}
+            onClick={handleTransferClick}
+          >
+            {loading.transfer ? "Transferring..." : "Transfer"}
+          </Rectangle>
+        )}
+        {/* </div> */}
       </div>
     </Modal>
   );

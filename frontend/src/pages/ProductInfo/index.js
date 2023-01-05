@@ -22,6 +22,7 @@ const ProductInfo = () => {
   const [OTOpen, setOTOpen] = useState(false);
   const [RSOpen, setRSOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [toggle, setToggle] = useState(false);
   const { product } = useSelector((state) => state.currentProduct);
   const [showQR, setShowQR] = useState(false);
   const { id } = useSelector((state) => state.user);
@@ -65,7 +66,7 @@ const ProductInfo = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [params.refId]);
+  }, [params.refId, toggle]);
 
   if (loading) return <h1>Loading ....</h1>;
   if (!loading && !_id)
@@ -148,8 +149,16 @@ const ProductInfo = () => {
       </div>
 
       {/* Modal */}
-      <TransferOwnershipModal open={OTOpen} handleClose={handleClose} />
-      <ReportStolenModal open={RSOpen} handleClose={() => setRSOpen(false)} />
+      <TransferOwnershipModal
+        open={OTOpen}
+        handleClose={handleClose}
+        setToggle={setToggle}
+      />
+      <ReportStolenModal
+        open={RSOpen}
+        handleClose={() => setRSOpen(false)}
+        setToggle={setToggle}
+      />
     </div>
   );
 };

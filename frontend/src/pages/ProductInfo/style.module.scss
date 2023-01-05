@@ -186,6 +186,14 @@
       margin-left: 10px;
     }
   }
+  .transferBtn {
+    width: 90%;
+  }
+  .actionBtnsWraper {
+    display: flex;
+    justify-content: center;
+    background-color: red;
+  }
 }
 
 .reportWrapper {

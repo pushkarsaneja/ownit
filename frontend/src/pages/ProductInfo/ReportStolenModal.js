@@ -7,7 +7,7 @@ import PhotoEditor from "../../components/PhotoEditor";
 import { reportProduct } from "./logic";
 import style from "./style.module.scss";
 
-function ReportStolenModal({ open, handleClose }) {
+function ReportStolenModal({ open, handleClose, setToggle }) {
   const [imgData, setImgData] = useState({});
   const alert = useAlert();
   const [loading, setLoading] = useState(false);
@@ -17,6 +17,7 @@ function ReportStolenModal({ open, handleClose }) {
       .then((res) => {
         alert.success("Product Reported");
         handleClose();
+        setToggle((pre) => !pre);
       })
       .catch((err) => {
         alert.error(err);
