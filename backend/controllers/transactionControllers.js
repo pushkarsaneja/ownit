@@ -17,7 +17,7 @@ exports.createTransaction = async (req, res, next) => {
     }
     const product = await Product.findById({ _id: productId });
     if (!product) return next(new ErrorHandler("No such product exists", 404));
-    const from = req.user.id;
+    const from = req.user._id;
     const toUser = await User.findOne({ email: to });
     // if current user is not current owner return;
     if (product.currentOwner.toString() !== from.toString()) {
@@ -85,8 +85,8 @@ exports.createTransaction = async (req, res, next) => {
 exports.getSingleTransaction = async (req, res, next) => {
   try {
     const transId = req.params.id;
-    const transaction = await Transaction.find({ transactionId: transId })
-      .populate({ path: "product", select: "-_id" })
+    const transaction = await Transaction.findOne({ transactionId: transId })
+      .populate({ path: "product" })
       .populate({ path: "from" })
       .populate({ path: "to" });
     res.status(201).json({

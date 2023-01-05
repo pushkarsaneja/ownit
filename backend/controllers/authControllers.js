@@ -12,6 +12,11 @@ exports.registerUser = async (req, res, next) => {
       return next(new ErrorHandler("Invalid Name or Email or Password", 401));
     }
     const randomId = crypto.randomBytes(10).toString("hex");
+    const anyUser = await User.find({ email: email });
+
+    if (anyUser.length > 0) {
+      return next(new ErrorHandler("User already exist with same email", 401));
+    }
     const user = await User.create({
       name,
       id: randomId,
@@ -19,9 +24,9 @@ exports.registerUser = async (req, res, next) => {
       password,
       role,
     });
-    sendToken(user, req, res, 200, randomId);
+    sendToken(user, req, res, 200, user._id);
   } catch (error) {
-    return next(new ErrorHandler(error, 400));
+    return next(new ErrorHandler(error));
   }
 };
 
@@ -46,7 +51,7 @@ exports.signInUser = async (req, res, next) => {
       return next(new ErrorHandler("Invalid Email or Password", 401));
     }
 
-    sendToken(user, req, res, 200, user.id);
+    sendToken(user, req, res, 200, user._id);
   } catch (error) {
     return next(new ErrorHandler(error, 400));
   }
