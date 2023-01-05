@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Heading from "../../components/Heading";
 import style from "./style.module.scss";
 import tick from "../../assets/images/tick.gif";
 import rightArrow from "../../assets/icons/right-arrow.png";
+import { useState } from "react";
+import { getTransactionInfo } from "./logic";
+import { useAlert } from "react-alert";
+import { useSelector } from "react-redux";
 
 //TODO
 //1. isReceiver is hard coded, make it dynamic.
@@ -11,9 +15,39 @@ import rightArrow from "../../assets/icons/right-arrow.png";
 
 const TransactionInfo = () => {
   const { trxnId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const { id } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const isReceiver = true;
+  const [isReceiver, setIsReceiver] = useState(null);
+  const alert = useAlert();
 
+  useEffect(() => {
+    setLoading(true);
+    getTransactionInfo(trxnId)
+      .then((res) => {
+        console.log(res);
+        setData(res);
+      })
+      .catch((err) => {
+        alert.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [trxnId]);
+
+  useEffect(() => {
+    if (data) {
+      if (id.toString() === data.to._id) setIsReceiver(true);
+      else setIsReceiver(false);
+    }
+  }, [data]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (!loading && !data) return <h4>No transaction</h4>;
   return (
     <div className={`${style["transaction-info"]} page`}>
       <Heading>Transaction Details</Heading>
@@ -32,8 +66,12 @@ const TransactionInfo = () => {
             <h4>{trxnId}</h4>
           </div>
           <div className={style["time-date"]}>
-            <div className={style["time"]}>12:00</div>
-            <div className={style["date"]}>12/12/23</div>
+            <div className={style["time"]}>
+              {new Date(data.timestamp).toLocaleTimeString()}
+            </div>
+            <div className={style["date"]}>
+              {new Date(data.timestamp).toLocaleDateString()}
+            </div>
           </div>
         </div>
         <div
@@ -44,26 +82,28 @@ const TransactionInfo = () => {
         >
           <img
             className={style["prod-img"]}
-            src="https://pngimg.com/uploads/watches/watches_PNG9869.png"
+            src={data.product.images[0] || ""}
             alt=""
           />
 
           <div className={style["details"]}>
-            <div className={style["prod-name"]}>Hampden Watch</div>
-            <div className={style["prod-id"]}>63a72c1f9a7d38d7b41551e6</div>
+            <div className={style["prod-name"]}>
+              {data.product.title || "-"}
+            </div>
+            <div className={style["prod-id"]}>{data.product._id}</div>
           </div>
         </div>
         <div className={style["transaction-between"]}>
           <div className={style["from"]}>
             <img className={style["right-arrow"]} src={rightArrow} alt="" />
             <div className={style["text"]}>From</div>
-            <div className={style["sender-name"]}>Sher Singh</div>
-            <div className={style["address"]}>637d32bab71f2409811a03ee</div>
+            <div className={style["sender-name"]}>{data.from.name}</div>
+            <div className={style["address"]}>{data.from._id}</div>
           </div>
           <div className={style["to"]}>
             <div className={style["text"]}>To</div>
-            <div className={style["receiver-name"]}>Pushkar Saneja</div>
-            <div className={style["address"]}>637d32bab71f2409811a03ee</div>
+            <div className={style["receiver-name"]}>{data.to.name}</div>
+            <div className={style["address"]}>{data.to._id}</div>
           </div>
         </div>
       </div>
