@@ -32,10 +32,17 @@ const App = () => {
           <Route path="/verifyproduct" element={<VerifyProduct />} />
           <Route path="/test" element={<Test />} />
           <Route path="/verifyproduct/scan" element={<ScanQr />} />
-          <Route path="/assets" element={<Assets />} />
+          <Route
+            path="/assets"
+            element={
+              <Protected authenticated={authenticated}>
+                <Assets />
+              </Protected>
+            }
+          />
           <Route path="/product/:refId" element={<ProductInfo />} />
           <Route path="/lot/:lotId" element={<Lot />} />
-          <Route path="/transaction/:trxnId" element={<TransactionInfo />} />
+
           <Route
             exact
             path={"/auth"}
@@ -133,6 +140,15 @@ const App = () => {
             element={
               <Protected authenticated={authenticated}>
                 <Transactions />
+              </Protected>
+            }
+          />
+
+          <Route
+            path="/transaction/:trxnId"
+            element={
+              <Protected authenticated={authenticated}>
+                <TransactionInfo />
               </Protected>
             }
           />
