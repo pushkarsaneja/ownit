@@ -13,37 +13,37 @@ const LINKS = [
   {
     id: 0,
     title: "Profile",
-    role: null,
+    role: ["consumer", "manufacturer", "distributor", "authority"],
     to: "/profile",
   },
   {
     id: 4,
     title: "Dashboard",
-    role: "authority",
+    role: ["authority"],
     to: "/dashboard",
   },
   {
     id: 1,
     title: "Create Product",
-    role: "manufacturer",
+    role: ["manufacturer"],
     to: "/manufacturer/define-product",
   },
   {
     id: 2,
     title: "Verify Product",
-    role: null,
+    role: ["consumer", "manufacturer", "distributor", "authority"],
     to: "/verifyproduct",
   },
   {
     id: 3,
     title: "Assets",
-    role: null,
+    role: ["consumer", "manufacturer", "distributor"],
     to: "/assets",
   },
   {
     id: 4,
     title: "Transactions",
-    role: null,
+    role: ["consumer", "manufacturer", "distributor"],
     to: "/transactions",
   },
 ];
@@ -66,7 +66,7 @@ function SignedInLinks({ role }) {
     <>
       <ul className={`${style["links-list"]}`}>
         {LINKS.map((link, idx) => {
-          if (link.role === null || link.role === role)
+          if (link.role.indexOf(role) >= 0)
             return (
               <li
                 key={idx}
@@ -114,7 +114,7 @@ function SignedInLinks({ role }) {
       >
         <div className={style["menu-bar"]}>
           {LINKS.map((link, idx) => {
-            if (link.role === null || link.role === role)
+            if (link.role.indexOf(role) >= 0)
               return (
                 <li
                   key={idx}
