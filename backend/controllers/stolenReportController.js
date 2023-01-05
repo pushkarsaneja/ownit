@@ -142,6 +142,10 @@ const getReportsData = async () => {
 
 exports.streamReportData = async (req, res, next) => {
   try {
+    // make first call now then after every 10 sec
+    const data = await getReportsData();
+    res.sendEventStreamData(data);
+
     let interval = setInterval(async () => {
       const data = await getReportsData();
       res.sendEventStreamData(data);
