@@ -7,7 +7,7 @@ const {
   deleteSingleAddress,
   getAllUsers,
   getUserTransactions,
-  getUserOwnerships,
+  getUserAssests,
   getSearchUserInfo,
 } = require("../controllers/userControllers");
 const { isAuthenticatedUser } = require("../middlewares/auth");
@@ -21,7 +21,7 @@ router.post("/addAddress", isAuthenticatedUser, addAddress);
 router.put("/updatePersonalInfo", isAuthenticatedUser, updatePersonalInfo);
 router.delete("/deleteAddress", isAuthenticatedUser, deleteSingleAddress);
 router.get("/getUserTransactions", isAuthenticatedUser, getUserTransactions);
-router.get("/getUserOwnerships", isAuthenticatedUser, getUserOwnerships);
+router.get("/assests", isAuthenticatedUser, getUserAssests);
 
 // testing
 router.get("/allUsers", getAllUsers);
