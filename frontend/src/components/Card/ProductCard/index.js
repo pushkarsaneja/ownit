@@ -1,8 +1,8 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import style from "./style.module.scss";
 import notFound from "../../../assets/images/imgNotFound.webp";
 import Ghost from "../../Buttons/Ghost";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({
   id = "XXXX",
@@ -11,14 +11,27 @@ const ProductCard = ({
   date = "DD-MM-YY",
   img = notFound,
   isOwner = false,
+  selectMode= false,
+  onClick=()=>{},
 }) => {
   const navigate = useNavigate();
 
+  const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(()=>{
+    setIsSelected(false);
+  },[selectMode]);
+
   return (
     <div
-      className={`${style["product-card"]}`}
-      onClick={() => {
-        navigate(`/product/${id}`);
+      className={`${style["product-card"]} ${isSelected?style["selected"]:''}`}
+      onClick={(e) => {
+        if(!selectMode)
+          navigate(`/product/${id}`);
+          else{
+            setIsSelected(prev=>!prev);
+            onClick();
+          }
       }}
     >
       <img className={style["prod-img"]} src={img} alt="" />
