@@ -7,6 +7,10 @@ const productSchema = new schema({
     type: String,
     required: [true, "Enter Product Title"],
   },
+  lot: {
+    type: String,
+    required: [true, "Lot Id is required"],
+  },
   description: {
     type: String,
     required: [true, "Enter Product Description"],
@@ -19,6 +23,10 @@ const productSchema = new schema({
   currentOwner: {
     type: schema.Types.ObjectId,
     ref: "User",
+  },
+  nft: {
+    type: String,
+    default: null,
   },
   ownerships: [
     {
