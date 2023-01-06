@@ -7,115 +7,161 @@ import SearchSort from "../../components/SearchSort";
 import Heading from "../../components/Heading";
 import Ghost from "../../components/Buttons/Ghost";
 import Primary from "../../components/Buttons/Primary";
+import { useEffect } from "react";
+import { getAssests } from "./logic";
+import { useSelector } from "react-redux";
 
+// const currentUser = "6883237943";
 
-const currentUser = "6883237943";
-
-const soldOn = (owners) => {
+const soldOn = (owners, currentUser) => {
   for (let i = owners.length - 1; i >= 0; i--) {
-    if (owners[i].id === currentUser) return owners[i].date;
+    if (owners[i].user.toString() === currentUser)
+      return new Date(owners[i].date).toLocaleDateString();
   }
 };
 
-
-
 const Assets = () => {
-
-  const [currentlyOwned,setCurrentlyOwned] = useState(true);
+  const { id } = useSelector((state) => state.user);
+  const [currentlyOwned, setCurrentlyOwned] = useState(true);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
- 
-  
-  const showAllOwned = () =>{
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("asc");
+
+  const showAllOwned = () => {
     setCurrentlyOwned(false);
     //handle all owned filter
-  }
-  
-  const showCurrentlyOwned = () =>{
+  };
+
+  const showCurrentlyOwned = () => {
     setCurrentlyOwned(true);
     //handle currently owned filter
-    
-  }
-  
-  const onTransfer=()=>{
-    if(selectedProducts.length>0)
-    {
+  };
+
+  const onTransfer = () => {
+    console.log(selectedProducts);
+    if (selectedProducts.length > 0) {
       console.log(selectedProducts);
       //handle Transfer
     }
 
     //call discardSelection after transferred successfully
-  }
+  };
 
-  const discardSelection =()=>{
-    setSelectMode(prev=>!prev)
+  const discardSelection = () => {
+    setSelectMode((prev) => !prev);
     setSelectedProducts([]);
-  }
+  };
   const onSort = (ascending) => {
     if (ascending) {
       //handle ascending
       console.log("sort in ascending");
+      setSort("asc");
     } else {
       //handle descending
       console.log("Sort in descending");
+      setSort("desc");
     }
   };
-  
+
   const onSearch = (value) => {
     //handle search
-  
-    console.log("Value:", value);
+    // console.log("Value:", value);
+    setSearch(value);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    getAssests(currentlyOwned, sort, search)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [currentlyOwned, search, sort]);
 
   return (
     <div className={`${style["assets-page"]}`}>
       <div className={style["sticky-bar"]}>
         <SearchSort onSearch={onSearch} onSort={onSort} />
         <div className={style["tool-bar"]}>
-          <Ghost className={`${style["ghost"]} ${style[currentlyOwned?"":"active"]}`} onClick={showAllOwned}>All owned</Ghost>
-          <Ghost className={`${style["ghost"]} ${style[currentlyOwned?"active":""]}`} onClick={showCurrentlyOwned}>Currently owned</Ghost>
-          <Ghost className={`${style["ghost"]} ${style[""]}`} onClick={discardSelection}>{selectMode?"Discard Selecion":"Select Multiple"}</Ghost>
-          <Primary className={`${style["primary"]} ${style[selectMode?"":"hide"]} ${style[selectedProducts.length?"active":""]}`} onClick={onTransfer}><span>Transfer Selected</span></Primary>
+          <Ghost
+            className={`${style["ghost"]} ${
+              style[currentlyOwned ? "" : "active"]
+            }`}
+            onClick={showAllOwned}
+          >
+            All owned
+          </Ghost>
+          <Ghost
+            className={`${style["ghost"]} ${
+              style[currentlyOwned ? "active" : ""]
+            }`}
+            onClick={showCurrentlyOwned}
+          >
+            Currently owned
+          </Ghost>
+          <Ghost
+            className={`${style["ghost"]} ${style[""]}`}
+            onClick={discardSelection}
+          >
+            {selectMode ? "Discard Selecion" : "Select Multiple"}
+          </Ghost>
+          <Primary
+            className={`${style["primary"]} ${
+              style[selectMode ? "" : "hide"]
+            } ${style[selectedProducts.length ? "active" : ""]}`}
+            onClick={onTransfer}
+          >
+            <span>Transfer Selected</span>
+          </Primary>
         </div>
       </div>
-      <div className={style["products-container"]}>
-      {products.map((prod,idx) => {
-        return (
-          <ProductCard
-            id={prod.id} //mongo id
-            name={prod.name}
-            key={idx}
-            nft={prod.nft}
-            isOwner={currentUser === prod.owner}
-            img={prod.img}
-            date={
-              currentUser === prod.owner
-                ? last(prod.owners).date
-                : soldOn(prod.owners)
-            }
-            selectMode={selectMode}
-            onClick = {()=>{
-              setSelectedProducts(prev=>{
-                if(!selectedProducts.includes(prod.id))
-                return [...prev,prod.id];
-                else
-                {
-                  const temp=[];
-                  prev.forEach((ele)=>{
-                    if(ele!==prod.id)
-                    {
-                      temp.push(ele);
-                    }
-                  })
 
-                  return temp;
-                };
-              })
-            }}
-          />
-        );
-      })}
-      </div>
+      {loading && <p>Loading...</p>}
+      {!loading && data && data.length === 0 && <p>No Assests</p>}
+      {!loading && data && (
+        <div className={style["products-container"]}>
+          {data.map((prod, idx) => {
+            return (
+              <ProductCard
+                id={prod._id} //mongo id
+                name={prod.title}
+                key={idx}
+                nft={prod.nft || "-"}
+                isOwner={id.toString() === prod.currentOwner.toString()}
+                img={prod.images[0]}
+                date={
+                  id.toString() === prod.currentOwner.toString()
+                    ? new Date(last(prod.ownerships).date).toLocaleDateString()
+                    : soldOn(prod.ownerships, prod.currentOwner.toString())
+                }
+                selectMode={selectMode}
+                onClick={() => {
+                  setSelectedProducts((prev) => {
+                    if (!selectedProducts.includes(prod._id))
+                      return [...prev, prod._id];
+                    else {
+                      const temp = [];
+                      prev.forEach((ele) => {
+                        if (ele !== prod._id) {
+                          temp.push(ele);
+                        }
+                      });
+
+                      return temp;
+                    }
+                  });
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
