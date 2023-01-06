@@ -7,8 +7,10 @@ import Primary from "../../components/Buttons/Primary";
 import http from "../../lib/http";
 import PhotoEditor from "../../components/PhotoEditor";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 const NewProduct = () => {
+  const alert = useAlert();
   const [formData, setFormData] = useState({
     categories: [""],
   });
@@ -19,13 +21,15 @@ const NewProduct = () => {
 
   const onsubmitHandler = async () => {
     //Handle Submit Here
+    console.log(imgData);
     try {
       const data = await http("/api/v1/add-product", "POST", {
         title: formData.productName,
         price: formData.MRP,
         categories: formData.categories,
         description: formData.description,
-        images: [formData.imgFile],
+        images: [imgData.imgFile],
+        quantity: formData.qty,
       });
 
       alert.success("Product Created");
