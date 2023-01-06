@@ -5,7 +5,7 @@ import VerifyProduct from "./pages/VerifyProduct";
 import ProductInfo from "./pages/ProductInfo";
 import ScanQr from "./pages/ScanQr";
 import { useSelector } from "react-redux";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/Signin";
 import Protected from "./components/Protected";
 import Manufacturer from "./pages/manufacturer";
 import Distributor from "./pages/Distributor";

@@ -51,7 +51,6 @@ function Transactions() {
   return (
     <div className={`${style["transactionsWrapper"]} page`}>
       <div className={style["sticky-bar"]}>
-        <Heading>Transactions</Heading>
         <SearchSort onSearch={onSearch} onSort={onSort} />
       </div>
       {loading ? (
