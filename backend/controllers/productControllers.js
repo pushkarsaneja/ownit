@@ -1,10 +1,10 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorHandler");
 const User = require("../models/userModel");
-
+const crypto = require("crypto");
 exports.postProduct = async (req, res, next) => {
   try {
-    const { title, price, categories, description } = req.body;
+    const { title, price, categories, description, quantity } = req.body;
     if (
       !title ||
       !price ||
@@ -33,27 +33,30 @@ exports.postProduct = async (req, res, next) => {
     //   }
 
     // req.body.images = imagesLink;
+    let lot = crypto.randomBytes(8).toString("hex");
 
-    const product = await Product.create({
-      ...req.body,
-      currentOwner: req.user._id,
-      ownerships: [{ user: req.user._id, date: Date.now() }],
-      manufacturer: req.user._id,
-    });
+    for (let i = 0; i < quantity; i++) {
+      const product = await Product.create({
+        ...req.body,
+        currentOwner: req.user._id,
+        ownerships: [{ user: req.user._id, date: Date.now() }],
+        manufacturer: req.user._id,
+        lot: lot,
+      });
 
-    await User.findOneAndUpdate(
-      { id: req.user._id },
-      {
-        $push: {
-          currentAssests: product._id,
-          allAssests: product._id,
-        },
-      }
-    );
+      await User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $push: {
+            currentAssests: product._id,
+            allAssests: product._id,
+          },
+        }
+      );
+    }
 
     res.status(201).json({
       success: true,
-      product,
     });
   } catch (error) {
     return next(new ErrorHandler(error, 400));
