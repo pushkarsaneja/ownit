@@ -12,19 +12,28 @@ import Circular from "../../components/Buttons/Circular";
 import http from "../../lib/http";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
+import { uploadFileToIPFS,uploadJSONToIPFS } from "../Pinata/Pinata";
+
+import OwnerNFT from '../../OwnerNFT.json';
 
 const NewProduct = () => {
+
+  const ethers = require("ethers");
   const [formData, setFormData] = useState({
     imgURL: null,
     imgFile: null,
     categories: [""],
   });
   const navigate = useNavigate();
-  console.log(formData);
+  // console.log(formData);
   const alert = useAlert();
   const [zoom, setZoom] = useState(1);
 
   const [hide, setHide] = useState(true);
+
+  const[fileURL,setFileURL] = useState(null);
+
+  
 
   const canvasRef = useRef();
 
@@ -34,7 +43,9 @@ const NewProduct = () => {
       ...formData,
       imgURL: URL.createObjectURL(e.target.files[0]),
     });
-    console.log(formData);
+   
+    fileUplaod(e.target.files[0]);
+    // console.log(formData);
   };
 
   const confirmSelection = () => {
@@ -55,7 +66,10 @@ const NewProduct = () => {
 
   const onsubmitHandler = async () => {
     //Handle Submit Here
-    try {
+    try { 
+      
+      await listNFT();
+
       const data = await http("/api/v1/add-product", "POST", {
         title: formData.productName,
         price: formData.MRP,
@@ -70,6 +84,87 @@ const NewProduct = () => {
       alert.error("Some Error Occured while creting product");
     }
   };
+
+  async function fileUplaod(file){
+    try {
+      const response = await uploadFileToIPFS(file);
+
+     
+      
+      if(response.success===true){
+        console.log("Uploaded image  to Pinata",response.pinataURL);
+        setFileURL(response.pinataURL);
+      }
+    } catch (error) {
+      console.log("Error during file upload", error);
+    }
+  }
+
+
+  async function uploadMetadataToIPFS() {
+    console.log(formData);
+      const {productName, description, MRP} = formData;
+      
+      //Make sure that none of the fields are empty
+      if( !productName || !description || !MRP)
+          return;
+
+      const nftJSON = {
+          productName, description, MRP, image: fileURL
+      }
+
+      try {
+          //upload the metadata JSON to IPFS
+          const response = await uploadJSONToIPFS(nftJSON);
+          if(response.success === true){
+              console.log("Uploaded JSON to Pinata: ", response)
+              return response.pinataURL;
+          }
+      }
+      catch(e) {
+          console.log("error uploading JSON metadata:", e)
+      }
+  }
+
+  async function listNFT() {
+
+    
+
+    //Upload data to IPFS
+    try {
+        const metadataURL = await uploadMetadataToIPFS();
+        //After adding your Hardhat network to your metamask, this code will get providers and signers
+        
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        
+        console.log(provider);
+        console.log(signer);
+
+        //Pull the deployed contract instance
+        let contract = new ethers.Contract(OwnerNFT.address, OwnerNFT.abi, signer)
+
+        //massage the params to be sent to the create NFT request
+        
+
+        //actually create the NFT
+        let transaction = await contract.createToken(metadataURL)
+        await transaction.wait()
+
+        console.log(transaction);
+
+        console.log("Successfully listed your NFT!");
+       
+    }
+    catch(e) {
+        
+        console.log(e);
+        
+    }
+  }
+
+
+
 
   return (
     <div className={`${style["new-product-page"]} page`}>
