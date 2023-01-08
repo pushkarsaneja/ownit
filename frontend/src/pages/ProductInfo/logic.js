@@ -17,13 +17,12 @@ export const getSearchUser = (searchText) => {
   });
 };
 
-export const tranferOwnership = (to) => {
-  const { currentProduct } = store.getState();
-  if (!currentProduct) return;
-  console.log(currentProduct);
-  const { _id } = currentProduct.product;
+export const tranferOwnership = (to, selectedProducts) => {
+  if (!selectedProducts || selectedProducts.length === 0) return;
+
+  const products = selectedProducts.map((item) => item.id);
   return new Promise((resolve, reject) => {
-    http("/api/v1/transaction/create", "POST", { productId: _id, to })
+    http("/api/v1/transaction/create", "POST", { products: products, to })
       .then((res) => {
         if (!res.data.success) {
           reject(res.data.message);

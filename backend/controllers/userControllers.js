@@ -161,7 +161,6 @@ exports.getUserTransactions = async (req, res, next) => {
   try {
     const sort = req.query.sort === "asc" ? 1 : -1;
     const search = req.query.search;
-
     const user = await User.findById(req.user._id)
       .select("name transactions")
       .populate({
@@ -182,7 +181,6 @@ exports.getUserTransactions = async (req, res, next) => {
         ],
       })
       .sort({ "transactions.timestamp": sort });
-
     let transactions = user.transactions.filter(
       (item) =>
         item.product.title.toLowerCase().search(search.toLowerCase()) >= 0 ||
@@ -198,17 +196,38 @@ exports.getUserTransactions = async (req, res, next) => {
   }
 };
 
-exports.getUserOwnerships = async (req, res, next) => {
+exports.getUserAssests = async (req, res, next) => {
   try {
+    const { all } = req.query;
+    const search = req.query.search || "";
+    const sort = req.query.sort === "asc" ? 1 : -1;
+    const field = all === "true" ? "allAssests" : "currentAssests";
     const user = await User.findById(req.user._id)
-      .select("name allAssests")
+      .select(`name ${field}`)
       .populate({
-        path: "allAssests",
+        path: field,
+      });
+
+    const data = user[field]
+      .filter(
+        (item) => item.title.toLowerCase().search(search.toLowerCase()) >= 0
+      )
+      .sort((a, b) => {
+        let aDoc = a.ownerships.find(
+          (ow) => ow.user.toString() == req.user._id.toString()
+        );
+        let aDate = aDoc._doc.date;
+        let bDoc = b.ownerships.find(
+          (ow) => ow.user.toString() == req.user._id.toString()
+        );
+        let bDate = bDoc._doc.date;
+        if (sort === 1) return aDate - bDate;
+        else return bDate - aDate;
       });
 
     res.status(200).json({
       success: true,
-      user,
+      data: data,
     });
   } catch (err) {
     return next(new ErrorHandler(err));

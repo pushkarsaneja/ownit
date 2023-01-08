@@ -27,8 +27,7 @@ function OwnershipsList() {
     setLoading(true);
     getOwnerships()
       .then((res) => {
-        console.log(res);
-        setData(res.user.allAssests);
+        setData(res.data);
       })
       .catch((err) => {
         console.log("error in getting ownerships", err);

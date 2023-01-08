@@ -158,6 +158,7 @@ const ProductInfo = () => {
         open={OTOpen}
         handleClose={handleClose}
         setToggle={setToggle}
+        selectedProducts={[{ id: _id }]}
       />
       <ReportStolenModal
         open={RSOpen}
