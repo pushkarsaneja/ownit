@@ -10,6 +10,7 @@ import style from "./style.module.scss";
 import Circular from "../../../components/Buttons/Circular";
 import close from "../../../assets/icons/close.png";
 import imageNotFound from "../../../assets/images/imgNotFound.webp";
+import pencil from "../../../assets/icons/pencil.png";
 
 function EditPersonalInfoModal({ handleClose, open, data, setData }) {
   const alert = useAlert();
@@ -96,7 +97,13 @@ function EditPersonalInfoModal({ handleClose, open, data, setData }) {
                     className={style["editBtn"]}
                     onClick={() => setShowPhotoEditor(true)}
                   >
-                    🖊️
+                    <img
+                      src={pencil}
+                      alt=""
+                      height="25px"
+                      width="25px"
+                      onClick={() => setRemoveProfile(true)}
+                    />
                   </Circular>
                   <Circular
                     className={style["removeBtn"]}
@@ -117,7 +124,7 @@ function EditPersonalInfoModal({ handleClose, open, data, setData }) {
           <div className={`${style["right"]}`}>
             <table className={`${style["table"]}`}>
               <tr className={`${style["row"]}`}>
-                <td className={`${style["key"]}`}>User ID</td>
+                <td className={`${style["key"]}`}>User Id</td>
                 <td className={`${style["value"]}`}>{data._id}</td>
               </tr>
               <tr>

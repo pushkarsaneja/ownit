@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { userActions } from "../../redux/userSlice";
@@ -8,6 +8,7 @@ import metaIcon from "../../assets/images/metamask.png";
 import powerIcon from "../../assets/images/power.png";
 import menuIcon from "../../assets/icons/hamburger.png";
 import closeIcon from "../../assets/icons/closePurple.png";
+import Heading from "../Heading";
 
 const LINKS = [
   {
@@ -24,7 +25,7 @@ const LINKS = [
   },
   {
     id: 1,
-    title: "Create Product",
+    title: "Add New Product",
     role: ["manufacturer"],
     to: "/manufacturer/define-product",
   },
@@ -52,6 +53,8 @@ function SignedInLinks({ role }) {
   const [showMenu, setShowMenu] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
+  const [heading,setHeading] = useState("");
+
   const handleLogout = () => {
     dispatch(
       userActions.setProfile({
@@ -96,6 +99,7 @@ function SignedInLinks({ role }) {
           </Ghost>
         </li>
       </ul>
+      <Heading className={style["heading"]}>{heading}</Heading>
       <button
         className={style["hamburger-menu"]}
         onClick={() => {
@@ -114,6 +118,12 @@ function SignedInLinks({ role }) {
       >
         <div className={style["menu-bar"]}>
           {LINKS.map((link, idx) => {
+
+            if(location.pathname===link.to && heading!==link.title)
+            {
+              setHeading(link.title);
+            }
+            
             if (link.role.indexOf(role) >= 0)
               return (
                 <li

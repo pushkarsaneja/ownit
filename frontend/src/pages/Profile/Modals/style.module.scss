@@ -56,25 +56,35 @@
 
 .editWrapper {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   .left {
-    width: 40%;
+    width: 50%;
     .imageWrapper {
       width: 100%;
       position: relative;
+      img{
+        width: 100%;
+        height: auto;
+      }
       .actionBtns {
         position: absolute;
         bottom: -20px;
         width: 100%;
-        .editBtn {
-          font-size: 1.3rem;
-        }
-        .closeBtn {
+        .editBtn,.removeBtn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img{
+            width: 20px;
+          }
         }
       }
     }
   }
   .right {
-    padding-left: 2rem;
+    margin-top: 2rem;
     display: flex;
     align-items: stretch;
     .table {
@@ -86,13 +96,18 @@
         // background: red;
         padding: 3px;
         font-size: 1.2rem;
+
+        .key{
+          padding-right: 1rem;
+        }
+        
         td {
           .input {
             font-size: 1.2rem;
             outline: none;
             border: none;
             margin: 1rem 0;
-            padding: 0 10px;
+            padding: 0 20px;
             border-bottom: 2px solid black;
             &:focus {
               border-color: var(--primary);

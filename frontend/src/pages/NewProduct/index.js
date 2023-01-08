@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Heading from "../../components/Heading";
 import style from "./style.module.scss";
 import addIconWhite from "../../assets/icons/plusWhite.png";
 import InputHandler from "../../components/InputHandler";
@@ -37,7 +36,6 @@ const NewProduct = () => {
 
   return (
     <div className={`${style["new-product-page"]} page`}>
-      <Heading>Add New Product</Heading>
       <div className={style["main-container"]}>
         <PhotoEditor imgData={imgData} setImgData={setImgData} />
         <div className={style["form-fields"]}>

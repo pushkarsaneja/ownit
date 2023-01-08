@@ -74,7 +74,7 @@ const Assets = () => {
         <div className={style["tool-bar"]}>
           <Ghost className={`${style["ghost"]} ${style[currentlyOwned?"":"active"]}`} onClick={showAllOwned}>All owned</Ghost>
           <Ghost className={`${style["ghost"]} ${style[currentlyOwned?"active":""]}`} onClick={showCurrentlyOwned}>Currently owned</Ghost>
-          <Ghost className={`${style["ghost"]} ${style[""]}`} onClick={discardSelection}>{selectMode?"Discard Selecion":"Select Multiple"}</Ghost>
+          <Ghost className={`${style["ghost"]} ${style[""]}`} onClick={discardSelection}>{selectMode?`${selectedProducts.length?"Discard Selecion":"Cancel"}`:"Select Multiple"}</Ghost>
           <Primary className={`${style["primary"]} ${style[selectMode?"":"hide"]} ${style[selectedProducts.length?"active":""]}`} onClick={onTransfer}><span>Transfer Selected</span></Primary>
         </div>
       </div>

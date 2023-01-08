@@ -14,6 +14,7 @@ import ReportStolenModal from "./ReportStolenModal";
 import BannerMessage from "../../components/bannerMessage";
 import { markFound } from "./logic";
 import { useAlert } from "react-alert";
+import cautionSign from "../../assets/icons/caution-sign.png"
 
 const ProductInfo = () => {
   const params = useParams();
@@ -80,10 +81,14 @@ const ProductInfo = () => {
       <div className={style["productDetailsWrapper"]}>
         <Heading>Product Details</Heading>
         {reportId && (
-          <BannerMessage
-            text="This product is reported as STOLEN"
-            color="danger"
-          />
+          <div className={style["stolen-message"]}>
+            <img src={cautionSign} alt=""/>
+            This product was reported STOLEN.
+          </div>
+          // <BannerMessage
+          //   text="This product is reported as STOLEN"
+          //   color="danger"
+          // />
         )}
         <header className={style["header"]}>
           <div className={style["info"]}>
