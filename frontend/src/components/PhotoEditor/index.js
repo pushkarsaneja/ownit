@@ -22,6 +22,7 @@ const PhotoEditor = ({
     setImgData({
       imgURL: null,
       imgFile: null,
+      defaultImg :null,
     });
   }, [setImgData]);
 

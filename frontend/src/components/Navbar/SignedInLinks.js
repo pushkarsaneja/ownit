@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState,useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { userActions } from "../../redux/userSlice";
 import Ghost from "../Buttons/Ghost";
@@ -48,9 +48,63 @@ const LINKS = [
   },
 ];
 
+
 function SignedInLinks({ role }) {
+
+  const [connected, toggleConnect] = useState(false);
+const location = useLocation();
+const [currAddress, updateAddress] = useState('0x');
+
+async function getAddress() {
+  const ethers = require("ethers");
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const addr = await signer.getAddress();
+  updateAddress(addr);
+}
+
+
+async function connectWebsite() {
+
+  const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+  if(chainId !== '0x5')
+  {
+    //alert('Incorrect network! Switch your metamask network to Rinkeby');
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x5' }],
+   })
+  }  
+  await window.ethereum.request({ method: 'eth_requestAccounts' })
+    .then(() => {
+      // updateButton();
+      console.log("here");
+      getAddress();
+      window.location.replace(location.pathname)
+    });
+}
+
+useEffect(() => {
+  window.ethereum.request({method: 'eth_accounts'}).then(
+    (account)=>{
+      if(account.length!=0){
+        toggleConnect(true);
+        getAddress();
+      } 
+    }
+  ).catch((error)=>{
+    console.log(error);
+  })
+
+  window.ethereum.on('accountsChanged', function(accounts){
+    window.location.replace(location.pathname)
+  })
+});
+
+
+
   const [showMenu, setShowMenu] = useState(false);
-  const location = useLocation();
+  // const location = useLocation();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(
@@ -80,10 +134,10 @@ function SignedInLinks({ role }) {
           return null;
         })}
         <li>
-          <Ghost className={style["connect-wallet"]} onClick={() => {}}>
+          <Ghost className={style["connect-wallet"]} onClick={() => {if(!connected){connectWebsite()}}}>
             <div>
               <img src={metaIcon} alt="" />
-              Connect Wallet
+              {connected?"Connected":"Connect wallet"}
             </div>
           </Ghost>
         </li>
@@ -128,10 +182,10 @@ function SignedInLinks({ role }) {
             return null;
           })}
           <li>
-            <Ghost className={style["connect-wallet"]} onClick={() => {}}>
+            <Ghost className={style["connect-wallet"]} onClick={() => {connectWebsite()}}>
               <div>
                 <img src={metaIcon} alt="" />
-                Connect Wallet
+                {connected?"Connected":"Connect wallet"}
               </div>
             </Ghost>
           </li>
