@@ -8,6 +8,7 @@ import SubHeading from "../../../components/SubHeading";
 import { getOwnerships } from "./logic";
 import { last } from "../../../helperFunctions/last";
 import style from "../style.module.scss";
+import Loading from "../../../components/Loading";
 
 const soldOn = (owners, currentUser) => {
   for (let i = owners.length - 1; i >= 0; i--) {
@@ -44,7 +45,11 @@ function OwnershipsList() {
       <SubHeading>Ownerships List</SubHeading>
       <div className={`${style["ownershipProductsWrapper"]}`}>
         {loading ? (
-          <p>Loading...</p>
+          <Loading
+            width={"50px"}
+            height="50px"
+            message={"Finding Ownerships"}
+          />
         ) : data && data.length === 0 ? (
           <h5>No current Ownerships</h5>
         ) : (

@@ -7,6 +7,7 @@ import TransactionCard from "../../components/Card/TransactionCard";
 import style from "./style.module.scss";
 import SearchSort from "../../components/SearchSort";
 import Heading from "../../components/Heading";
+import Loading from "../../components/Loading";
 
 function Transactions() {
   const alert = useAlert();
@@ -54,7 +55,7 @@ function Transactions() {
         <SearchSort onSearch={onSearch} onSort={onSort} />
       </div>
       {loading ? (
-        <p>loading...</p>
+        <Loading width={"50px"} height="50px" message={"Finding Transaction"} />
       ) : data && data.length !== 0 ? (
         <>
           {data.map(

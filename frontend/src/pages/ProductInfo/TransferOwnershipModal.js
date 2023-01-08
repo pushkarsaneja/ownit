@@ -2,9 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useAlert } from "react-alert";
+import { useSelector } from "react-redux";
 import Rectangle from "../../components/Buttons/Rectangle";
 import MinimalProductCard from "../../components/Card/MinimalProductCard";
 import InputHandler from "../../components/InputHandler";
+import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import ErrorProducts from "./ErrorProducts";
 import { getSearchUser, tranferOwnership } from "./logic";
@@ -27,7 +29,7 @@ function TransferOwnershipModal({
   const [toInfo, setToInfo] = useState(undefined);
   const [selectedProductsOpen, setSelectedProductsOpen] = useState(false);
   const [errorProducts, setErrorProducts] = useState([]);
-
+  const { id } = useSelector((state) => state.user);
   const handleSearchClick = () => {
     setLoading(() => ({ ...loading, fetchUser: true }));
     getSearchUser(formData.searchText)
@@ -45,6 +47,11 @@ function TransferOwnershipModal({
   };
 
   const handleTransferClick = () => {
+    if (toInfo._id.toString() === id.toString()) {
+      alert.info("Cannot Transfer product to sender itself");
+      return;
+    }
+
     setLoading(() => ({ ...loading, transfer: true }));
     tranferOwnership(formData.searchText, selectedProducts)
       .then((res) => {
@@ -69,6 +76,7 @@ function TransferOwnershipModal({
     return () => {
       setFormData({ searchText: null });
       setToInfo(undefined);
+      setFormData({ searchText: "" });
       setErrorProducts([]);
     };
   }, [open]);
@@ -141,7 +149,7 @@ function TransferOwnershipModal({
           {toInfo !== undefined && (
             <div className={style["sendToInformationWrapper"]}>
               {loading.fetchUser ? (
-                <p>Loading...</p>
+                <Loading width={"50px"} height="50px" message="Finding User" />
               ) : toInfo !== null ? (
                 <>
                   <div className={style["imageWrapper"]}>
@@ -176,7 +184,15 @@ function TransferOwnershipModal({
               className={style["transferBtn"]}
               onClick={handleTransferClick}
             >
-              {loading.transfer ? "Transferring..." : "Transfer"}
+              {loading.transfer ? (
+                <Loading
+                  width={"50px"}
+                  height="50px"
+                  message="Transferring..."
+                />
+              ) : (
+                "Transfer"
+              )}
             </Rectangle>
           )}
         </div>

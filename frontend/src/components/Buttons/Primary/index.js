@@ -1,9 +1,13 @@
 import React from "react";
 import style from "./style.module.scss";
 
-const Primary = ({ children, onClick, className = "" }) => {
+const Primary = ({ children, onClick, disabled, className = "" }) => {
   return (
-    <button className={`${style["primary"]} ${className}`} onClick={onClick}>
+    <button
+      disabled={disabled}
+      className={`${style["primary"]} ${className}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

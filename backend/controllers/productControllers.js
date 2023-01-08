@@ -5,7 +5,7 @@ const crypto = require("crypto");
 exports.postProduct = async (req, res, next) => {
   try {
     const { title, price, categories, description, quantity, nft } = req.body;
-    
+
     if (
       !title ||
       !price ||
@@ -14,8 +14,6 @@ exports.postProduct = async (req, res, next) => {
       !description ||
       !nft
     )
-    
-
       return next(new ErrorHandler("Insufficient Data", 401));
 
     // let images = [];
@@ -37,7 +35,6 @@ exports.postProduct = async (req, res, next) => {
     //   }
 
     // req.body.images = imagesLink;
-    let lot = crypto.randomBytes(8).toString("hex");
 
     for (let i = 0; i < quantity; i++) {
       const product = await Product.create({
@@ -45,8 +42,7 @@ exports.postProduct = async (req, res, next) => {
         currentOwner: req.user._id,
         ownerships: [{ user: req.user._id, date: Date.now() }],
         manufacturer: req.user._id,
-        lot: lot,
-        nft
+        nft,
       });
 
       await User.findOneAndUpdate(

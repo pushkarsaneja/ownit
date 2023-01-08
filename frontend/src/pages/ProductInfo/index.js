@@ -15,6 +15,7 @@ import BannerMessage from "../../components/bannerMessage";
 import { markFound } from "./logic";
 import { useAlert } from "react-alert";
 import cautionSign from "../../assets/icons/caution-sign.png"
+import Loading from "../../components/Loading";
 
 const ProductInfo = () => {
   const params = useParams();
@@ -69,7 +70,7 @@ const ProductInfo = () => {
       });
   }, [params.refId, toggle]);
 
-  if (loading) return <h1>Loading ....</h1>;
+  if (loading) return <Loading />;
   if (!loading && !_id)
     return (
       <div>
