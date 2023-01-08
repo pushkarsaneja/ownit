@@ -10,7 +10,7 @@ import Primary from "../../components/Buttons/Primary";
 import { useEffect } from "react";
 import { getAssests } from "./logic";
 import { useSelector } from "react-redux";
-
+import TransferOwnershipModal from "../ProductInfo/TransferOwnershipModal";
 // const currentUser = "6883237943";
 
 const soldOn = (owners, currentUser) => {
@@ -29,6 +29,8 @@ const Assets = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("asc");
+  const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState(true);
 
   const showAllOwned = () => {
     setCurrentlyOwned(false);
@@ -45,6 +47,7 @@ const Assets = () => {
     if (selectedProducts.length > 0) {
       console.log(selectedProducts);
       //handle Transfer
+      setOpen(true);
     }
 
     //call discardSelection after transferred successfully
@@ -57,11 +60,11 @@ const Assets = () => {
   const onSort = (ascending) => {
     if (ascending) {
       //handle ascending
-      console.log("sort in ascending");
+      // console.log("sort in ascending");
       setSort("asc");
     } else {
       //handle descending
-      console.log("Sort in descending");
+      // console.log("Sort in descending");
       setSort("desc");
     }
   };
@@ -82,10 +85,16 @@ const Assets = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [currentlyOwned, search, sort]);
+  }, [currentlyOwned, search, sort, toggle]);
 
   return (
     <div className={`${style["assets-page"]}`}>
+      <TransferOwnershipModal
+        open={open}
+        handleClose={() => setOpen(false)}
+        setToggle={setToggle}
+        selectedProducts={selectedProducts}
+      />
       <div className={style["sticky-bar"]}>
         <SearchSort onSearch={onSearch} onSort={onSort} />
         <div className={style["tool-bar"]}>
@@ -144,11 +153,18 @@ const Assets = () => {
                 onClick={() => {
                   setSelectedProducts((prev) => {
                     if (!selectedProducts.includes(prod._id))
-                      return [...prev, prod._id];
+                      return [
+                        ...prev,
+                        {
+                          id: prod._id,
+                          title: prod.title,
+                          img: prod.images[0],
+                        },
+                      ];
                     else {
                       const temp = [];
                       prev.forEach((ele) => {
-                        if (ele !== prod._id) {
+                        if (ele.id !== prod._id) {
                           temp.push(ele);
                         }
                       });

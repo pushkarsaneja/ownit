@@ -167,6 +167,46 @@
       }
     }
   }
+
+  .noOfSelectedProduct {
+    margin-left: 5px;
+    color: black;
+    font-weight: 700;
+  }
+  .arrow {
+    font-size: 1.5rem;
+    position: absolute;
+    top: 3px;
+    right: 10px;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+    border: none;
+  }
+  .up {
+    transform: rotate(180deg);
+  }
+
+  .productsListWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    height: 200px;
+    width: 100%;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+  }
+  .open {
+    height: 200px;
+    border: 1px solid var(--lightgray);
+  }
+  .close {
+    padding: 0;
+    height: 0;
+    overflow: hidden;
+  }
   .inputGroup {
     display: flex;
     justify-content: space-between;
@@ -208,4 +248,7 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+.errorProductsWrapper {
 }
