@@ -4,14 +4,18 @@ const User = require("../models/userModel");
 const crypto = require("crypto");
 exports.postProduct = async (req, res, next) => {
   try {
-    const { title, price, categories, description, quantity } = req.body;
+    const { title, price, categories, description, quantity, nft } = req.body;
+    
     if (
       !title ||
       !price ||
       !categories ||
       categories.length === 0 ||
-      !description
+      !description ||
+      !nft
     )
+    
+
       return next(new ErrorHandler("Insufficient Data", 401));
 
     // let images = [];
@@ -42,6 +46,7 @@ exports.postProduct = async (req, res, next) => {
         ownerships: [{ user: req.user._id, date: Date.now() }],
         manufacturer: req.user._id,
         lot: lot,
+        nft
       });
 
       await User.findOneAndUpdate(
