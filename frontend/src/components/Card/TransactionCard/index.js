@@ -53,7 +53,7 @@ const TransactionCard = ({
             <span className={style["text"]}>Date : </span>
             {date}
           </div>
-          <div className={style["cost"]}>₹{cost}</div>
+          {/* <div className={style["cost"]}>₹{cost}</div> */}
           <Ghost className={style["transaction-details"]}>More Details</Ghost>
         </div>
       </div>
