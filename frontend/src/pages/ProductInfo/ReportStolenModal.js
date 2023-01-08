@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useAlert } from "react-alert";
 import Rectangle from "../../components/Buttons/Rectangle";
+import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import PhotoEditor from "../../components/PhotoEditor";
 import { reportProduct } from "./logic";
@@ -40,7 +41,11 @@ function ReportStolenModal({ open, handleClose, setToggle }) {
         <p>Are you sure want to report the product as stolen ? </p>
         <div className={style["actionBtnsWraper"]}>
           <Rectangle color="success" onClick={handleReport}>
-            {loading ? "Reporting..." : "Report"}
+            {loading ? (
+              <Loading width={"50px"} height="50px" message="Reporting..." />
+            ) : (
+              "Report"
+            )}
           </Rectangle>
         </div>
       </div>

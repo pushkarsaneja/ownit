@@ -7,21 +7,25 @@ import Primary from "../../components/Buttons/Primary";
 import { useNavigate } from "react-router-dom";
 import { getProduct } from "./logic";
 import { useAlert } from "react-alert";
+import Loading from "../../components/Loading";
 
 const VerifyProduct = () => {
   const navigate = useNavigate();
   const [refId, setRefId] = useState("");
+  const [loading, setLoading] = useState(false);
   const alert = useAlert();
   const onVerify = async (e) => {
     e.preventDefault();
-
     if (refId.trim() === "") return;
+    setLoading(true);
     try {
       await getProduct(refId);
       navigate(`/product/${refId}`);
     } catch (err) {
       alert.error("Product Not Found");
       console.log("Product Not found");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,7 +56,13 @@ const VerifyProduct = () => {
             onChange={onInputChange}
             value={refId}
           />
-          <Primary onClick={onVerify}>Verify</Primary>
+          <Primary onClick={onVerify} disabled={loading ? true : false}>
+            {loading ? (
+              <Loading width={"50px"} height="50px" message={"Verifying"} />
+            ) : (
+              "Verify"
+            )}
+          </Primary>
         </form>
       </div>
     </div>

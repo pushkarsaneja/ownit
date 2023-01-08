@@ -12,6 +12,7 @@ import http from "../../lib/http";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../redux/userSlice";
 import { Navigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const SignIn = ({ authenticated }) => {
   const [formData, setFormData] = useState({ role: "consumer" });
@@ -115,7 +116,7 @@ const SignIn = ({ authenticated }) => {
             Sgeneral: error.response.data.message,
           });
         }
-      }
+      } else setSubmit(0);
     };
 
     auth();
@@ -149,7 +150,13 @@ const SignIn = ({ authenticated }) => {
               <p className={style["error"]}>{formErrors.password}</p>
               <Anchor onClick={() => {}}>Forgot Password?</Anchor>
             </div>
-            <Primary onClick={onSignInHandler}>Login</Primary>
+            <Primary onClick={onSignInHandler}>
+              {submit === 1 || submit === 2 ? (
+                <Loading width={"50px"} height="50px" />
+              ) : (
+                "Login"
+              )}
+            </Primary>
             <div>
               New to OwnIt:{" "}
               <Anchor onClick={rotateForm} className={style["signup"]}>
@@ -226,7 +233,13 @@ const SignIn = ({ authenticated }) => {
                 Authority
               </Radio>
             </div>
-            <Primary onClick={onSignUpHandler}>Signup</Primary>
+            <Primary onClick={onSignUpHandler}>
+              {submit === 1 || submit === 2 ? (
+                <Loading width={"50px"} height="50px" />
+              ) : (
+                "Signup"
+              )}
+            </Primary>
             <div>
               Already have an account?{" "}
               <Anchor onClick={rotateForm} className={style["signup"]}>

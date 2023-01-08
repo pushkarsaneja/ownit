@@ -14,7 +14,7 @@ import ReportStolenModal from "./ReportStolenModal";
 import BannerMessage from "../../components/bannerMessage";
 import { markFound } from "./logic";
 import { useAlert } from "react-alert";
-
+import Loading from "../../components/Loading";
 const ProductInfo = () => {
   const params = useParams();
   const alert = useAlert();
@@ -68,7 +68,7 @@ const ProductInfo = () => {
       });
   }, [params.refId, toggle]);
 
-  if (loading) return <h1>Loading ....</h1>;
+  if (loading) return <Loading />;
   if (!loading && !_id)
     return (
       <div>

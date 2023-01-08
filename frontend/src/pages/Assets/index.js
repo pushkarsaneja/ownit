@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { getAssests } from "./logic";
 import { useSelector } from "react-redux";
 import TransferOwnershipModal from "../ProductInfo/TransferOwnershipModal";
+import Loading from "../../components/Loading";
 // const currentUser = "6883237943";
 
 const soldOn = (owners, currentUser) => {
@@ -87,6 +88,11 @@ const Assets = () => {
       });
   }, [currentlyOwned, search, sort, toggle]);
 
+  useEffect(() => {
+    setSelectedProducts([]);
+    setSelectMode(false);
+  }, [toggle]);
+
   return (
     <div className={`${style["assets-page"]}`}>
       <TransferOwnershipModal
@@ -131,7 +137,9 @@ const Assets = () => {
         </div>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <Loading width={"50px"} height="50px" message={"Assests Loading"} />
+      )}
       {!loading && data && data.length === 0 && <p>No Assests</p>}
       {!loading && data && (
         <div className={style["products-container"]}>
