@@ -55,9 +55,13 @@ export const reportProduct = (imgfile) => {
   });
 };
 
-export const markFound = (productId) => {
+export const markFound = (reportId, productId) => {
   return new Promise((resolve, reject) => {
-    http("/api/v1/report/markUnstolen", "POST", { productId })
+    http("/api/v1/report/update/status", "PUT", {
+      reportId,
+      productId,
+      status: "closed",
+    })
       .then((res) => {
         if (!res.data.success) {
           reject(res.data.message);
