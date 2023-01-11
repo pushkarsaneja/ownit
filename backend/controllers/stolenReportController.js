@@ -45,7 +45,8 @@ exports.getReportDetails = async (req, res, next) => {
     const report = await Report.findOne({ _id: reportId }).populate([
       {
         path: "productId",
-        select: "title images",
+        select: "title images manufacturer",
+        populate: [{ path: "manufacturer", select: "name profile" }],
       },
       {
         path: "reportedUser",
