@@ -49,7 +49,7 @@ const NewProduct = () => {
       alert.success("Products Created");
 
       setLoading(false);
-      // navigate("/profile");
+      navigate("/profile");
     } catch (err) {
       alert.error("Some Error Occured while creting product");
       setLoading(false);

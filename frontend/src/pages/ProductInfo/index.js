@@ -143,7 +143,7 @@ const ProductInfo = () => {
                 </Rectangle>
               </>
             ) : (
-              <Rectangle onClick={handleFound}>Report Found</Rectangle>
+              ""
             )}
           </div>
         )}
