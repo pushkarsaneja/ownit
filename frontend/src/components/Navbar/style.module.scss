@@ -6,13 +6,38 @@
   margin: 0 1rem;
   border-bottom: solid 1px var(--primary);
   background-color: white;
+  position: relative;
 
   .logo {
     img {
       height: 50px;
     }
+
+    .logo-mini{
+      @media screen and (min-width: 550px) {
+        display: none;
+      }
+    }
+
+    .logo-big{
+      @media screen and (max-width: 550px) {
+        display: none;
+      }
+    }
   }
   z-index: 5;
+}
+
+.heading{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-75%,-150%);
+  font-size: 1rem;
+
+  @media screen and (min-width: 1300px) {
+    display: none;
+  }
 }
 
 .links-list,

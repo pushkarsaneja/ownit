@@ -31,9 +31,10 @@
   padding: 30px;
   min-width: 300px;
   min-height: 200px;
-  max-height: 90%;
   border-radius: 5px;
   overflow-y: auto;
+  max-width: 100%;
+  margin: 1rem;
 }
 .openModal {
   display: flex;
