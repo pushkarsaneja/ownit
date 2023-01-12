@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Badge from "../../components/badge";
+import UserNameWIthImg from "../../components/userNameWIthImg";
 import useEventSource from "../../custom hooks/useEventSource";
 import style from "./style.module.scss";
 
@@ -55,7 +56,7 @@ function Dashboard() {
                   <td>{idx + 1}</td>
                   <td>{item.productId.title}</td>
                   <td className={style["userField"]}>
-                    <span>{item.reportedUser.name}</span>
+                    {/* <span>{item.reportedUser.name}</span>
                     {item.reportedUser.profile &&
                       item.reportedUser.profile !== "" && (
                         <img
@@ -64,7 +65,11 @@ function Dashboard() {
                           width="30px"
                           height="30px"
                         />
-                      )}
+                      )} */}
+                    <UserNameWIthImg
+                      name={item.reportedUser.name}
+                      imgSrc={item.reportedUser.profile}
+                    />
                   </td>
 
                   <td>{new Date(item.reportingDate).toLocaleDateString()}</td>

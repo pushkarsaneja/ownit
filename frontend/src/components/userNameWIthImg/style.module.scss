@@ -1,0 +1,16 @@
+.userField {
+  display: flex;
+  justify-content: flex-start;
+  min-width: 170px;
+  align-items: center;
+  img {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1;
+    // object-fit: contain;
+    background-repeat: no-repeat;
+    margin-left: 20px;
+  }
+}

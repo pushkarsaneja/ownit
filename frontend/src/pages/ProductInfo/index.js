@@ -47,9 +47,10 @@ const ProductInfo = () => {
   };
 
   const handleFound = async () => {
-    markFound(_id)
+    markFound(reportId, _id)
       .then((res) => {
         alert.success("Marked found");
+        setToggle((pre) => !pre);
       })
       .catch((err) => {
         alert.error(err);
@@ -143,7 +144,9 @@ const ProductInfo = () => {
                 </Rectangle>
               </>
             ) : (
-              ""
+              <>
+                <Rectangle onClick={handleFound}>Report Found</Rectangle>
+              </>
             )}
           </div>
         )}
