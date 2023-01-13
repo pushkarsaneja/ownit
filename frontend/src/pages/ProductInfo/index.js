@@ -14,7 +14,7 @@ import ReportStolenModal from "./ReportStolenModal";
 import BannerMessage from "../../components/bannerMessage";
 import { markFound } from "./logic";
 import { useAlert } from "react-alert";
-import cautionSign from "../../assets/icons/caution-sign.png"
+import cautionSign from "../../assets/icons/caution-sign.png";
 import Loading from "../../components/Loading";
 
 const ProductInfo = () => {
@@ -84,7 +84,7 @@ const ProductInfo = () => {
         <Heading>Product Details</Heading>
         {reportId && (
           <div className={style["stolen-message"]}>
-            <img src={cautionSign} alt=""/>
+            <img src={cautionSign} alt="" />
             This product was reported STOLEN.
           </div>
           // <BannerMessage
@@ -162,7 +162,7 @@ const ProductInfo = () => {
         open={OTOpen}
         handleClose={handleClose}
         setToggle={setToggle}
-        selectedProducts={[{ id: _id }]}
+        selectedProducts={[{ id: _id, img: images[0], title }]}
       />
       <ReportStolenModal
         open={RSOpen}

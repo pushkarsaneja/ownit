@@ -39,7 +39,7 @@ function TransferOwnershipModal({
         else setToInfo(null);
       })
       .catch((err) => {
-        console.log("errorin in search user");
+        console.log("error in in search user");
       })
       .finally(() => {
         setLoading(() => ({ ...loading, fetchUser: false }));
@@ -168,6 +168,12 @@ function TransferOwnershipModal({
                       <tr>
                         <td className={style["label"]}>Email :</td>
                         <td className={style["value"]}>{toInfo?.email}</td>
+                      </tr>
+                      <tr>
+                        <td className={style["label"]}>Wallet Address</td>
+                        <td className={style["value"]}>
+                          {toInfo?.wallet || "-"}
+                        </td>
                       </tr>
                     </table>
                   </div>
