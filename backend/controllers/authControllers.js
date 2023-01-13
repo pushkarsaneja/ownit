@@ -7,10 +7,18 @@ const { sendToken } = require("../utils/jwtToken");
 // Register User
 exports.registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, wallet } = req.body;
     if (!name || !email || !password || !role) {
       return next(new ErrorHandler("Invalid Name or Email or Password", 401));
     }
+
+    if (
+      role.toString() === "authority" &&
+      (!wallet || wallet.toString().trim() === "")
+    ) {
+      return next(new ErrorHandler("Wallet Address is required", 401));
+    }
+
     const randomId = crypto.randomBytes(10).toString("hex");
     const anyUser = await User.find({ email: email });
 
@@ -23,6 +31,7 @@ exports.registerUser = async (req, res, next) => {
       email,
       password,
       role,
+      wallet,
     });
     sendToken(user, req, res, 200, user._id);
   } catch (error) {

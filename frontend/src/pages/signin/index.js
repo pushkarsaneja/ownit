@@ -67,6 +67,9 @@ const SignIn = ({ authenticated }) => {
       errors.Spassword = "Password must be more than 4 characters";
     }
 
+    if (values.role !== "authority" && !values.wallet) {
+      errors.Swallet = "Wallet Address is required";
+    }
     return errors;
   };
 
@@ -197,6 +200,18 @@ const SignIn = ({ authenticated }) => {
                 onChange={onChangeHandler}
               />
               <p className={style["error"]}>{formErrors.Spassword}</p>
+              {formData.role !== "authority" && (
+                <>
+                  <InputHandler
+                    placeholder="Wallet address"
+                    type="text"
+                    name="wallet"
+                    value={formData.wallet}
+                    onChange={onChangeHandler}
+                  />
+                  <p className={style["error"]}>{formErrors.Swallet}</p>
+                </>
+              )}
             </div>
             <h2>Signup as:</h2>
             <div className={style["radio-buttons-container"]}>
