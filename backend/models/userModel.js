@@ -19,6 +19,7 @@ const userSchema = new schema({
   },
   wallet: {
     type: "String",
+    default: null,
   },
   profile: {
     type: String,

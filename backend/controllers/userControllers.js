@@ -116,7 +116,7 @@ exports.getSearchUserInfo = async (req, res, next) => {
           },
         ],
       },
-      "name email _id profile"
+      "name email _id profile wallet"
     );
     res.status(200).json({
       success: true,
