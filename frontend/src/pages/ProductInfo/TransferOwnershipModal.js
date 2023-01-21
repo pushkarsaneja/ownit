@@ -53,7 +53,7 @@ function TransferOwnershipModal({
     }
 
     setLoading(() => ({ ...loading, transfer: true }));
-    tranferOwnership(formData.searchText, selectedProducts)
+    tranferOwnership(formData.searchText, selectedProducts, toInfo.wallet)
       .then((res) => {
         console.log(res);
         if (res.errors.length === 0) {
@@ -80,10 +80,6 @@ function TransferOwnershipModal({
       setErrorProducts([]);
     };
   }, [open]);
-
-  useEffect(() => {
-    console.log(selectedProductsOpen);
-  }, [selectedProductsOpen]);
 
   return (
     <Modal open={open} handleClose={handleClose}>

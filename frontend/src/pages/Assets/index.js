@@ -167,6 +167,7 @@ const Assets = () => {
                           id: prod._id,
                           title: prod.title,
                           img: prod.images[0],
+                          token: prod.token,
                         },
                       ];
                     else {

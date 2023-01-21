@@ -39,6 +39,7 @@ const ProductInfo = () => {
       images,
       currentOwner,
       reportId,
+      token,
     } = product;
   }
 
@@ -162,7 +163,7 @@ const ProductInfo = () => {
         open={OTOpen}
         handleClose={handleClose}
         setToggle={setToggle}
-        selectedProducts={[{ id: _id, img: images[0], title }]}
+        selectedProducts={[{ id: _id, img: images[0], title, token }]}
       />
       <ReportStolenModal
         open={RSOpen}
