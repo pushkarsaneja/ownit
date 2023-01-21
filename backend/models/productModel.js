@@ -11,6 +11,10 @@ const productSchema = new schema({
     type: String,
     required: [true, "Lot Id is required"],
   },
+  token: {
+    type: Number,
+    required: [true, "tokenId is required"],
+  },
   description: {
     type: String,
     required: [true, "Enter Product Description"],
