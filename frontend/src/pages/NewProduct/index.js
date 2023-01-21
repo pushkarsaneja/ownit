@@ -14,6 +14,8 @@ import OwnerNFT from "../../OwnerNFT.json";
 import { genRanHex } from "../../helperFunctions/generateRandomHexNumber";
 import Loading from "../../components/Loading";
 
+import Web3 from 'web3';
+
 const NewProduct = () => {
   const alert = useAlert();
   const [formData, setFormData] = useState({
@@ -93,6 +95,8 @@ const NewProduct = () => {
 
         //After adding your Hardhat network to your metamask, this code will get providers and signers
 
+        let web3 = new Web3(Web3.givenProvider);
+
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
 
@@ -111,9 +115,18 @@ const NewProduct = () => {
         //actually create the NFT
 
         let transaction = await contract.createToken(metadataURL);
+
         await transaction.wait();
+        
+        const receipt = await web3.eth.getTransactionReceipt(transaction.hash);
+
+        const tokenNumber = parseInt(receipt.logs[0].topics[3], 16);
+
+        console.log(tokenNumber);
 
         console.log(transaction);
+
+        
         resolve(transaction);
         console.log("Successfully listed your NFT!");
       } catch (e) {
