@@ -1,5 +1,9 @@
 import http from "../../lib/http";
 import store from "../../redux/store";
+import Web3 from 'web3';
+import OwnerNFT from "../../OwnerNFT.json";
+import { ethers } from "ethers";
+
 
 export const getSearchUser = (searchText) => {
   return new Promise((resolve, reject) => {
@@ -17,7 +21,7 @@ export const getSearchUser = (searchText) => {
   });
 };
 
-export const tranferOwnership = (
+export const tranferOwnership =async (
   to,
   selectedProducts,
   walletAddressOfReceiver
@@ -30,27 +34,65 @@ export const tranferOwnership = (
   const productTokens = selectedProducts.map((item) => item.token);
 
   console.log(productTokens, walletAddressOfReceiver);
-  return new Promise((resolve, reject) => {
-    /* ye nechhe api call backend pe sare selected products ko loop karegi
-    // frontend se nahi loop lagaya
-    // par blockchian ke liye api call se pahele loop lagega aur sare product transfer honge on
-    // blockchain fir ye neeche wala api call hoga jo fir jake mongo me
-    // sabko change karga
-     wallet address : walletAddressOfReceiver me milega */
 
-    http("/api/v1/transaction/create", "POST", { products: products, to })
-      .then((res) => {
-        if (!res.data.success) {
-          reject(res.data.message);
-        } else {
-          resolve(res.data);
-        }
-      })
-      .catch((err) => {
-        reject(err.response.data.message);
-      });
-  });
+  await transferNftToOther(productTokens,walletAddressOfReceiver).then(
+   transferBackendcall(products,to)
+  );
+
 };
+
+function transferBackendcall(products,to){
+  return new Promise((resolve, reject) => {
+    //   /* ye nechhe api call backend pe sare selected products ko loop karegi
+    //   // frontend se nahi loop lagaya
+    //   // par blockchian ke liye api call se pahele loop lagega aur sare product transfer honge on
+    //   // blockchain fir ye neeche wala api call hoga jo fir jake mongo me
+    //   // sabko change karga
+    //    wallet address : walletAddressOfReceiver me milega */
+  
+      http("/api/v1/transaction/create", "POST", { products: products, to })
+        .then((res) => {
+          if (!res.data.success) {
+            reject(res.data.message);
+          } else {
+            resolve(res.data);
+          }
+        })
+        .catch((err) => {
+          reject(err.response.data.message);
+        });
+    });
+}
+
+
+async function transferNftToOther(productTokens,walletAddresss) {
+  productTokens.map((tokenId)=>{
+    return new Promise(async (resolve, reject) => {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        let contract = new ethers.Contract(
+          OwnerNFT.address,
+          OwnerNFT.abi,
+          signer
+        );
+        console.log(walletAddresss,)
+        let transaction = await contract.transferNFT(walletAddresss,tokenId);
+  
+        await transaction.wait();
+        
+        console.log(transaction);
+        
+        resolve(transaction);
+        console.log("Successfully transfer the NFT!");
+      } catch (e) {
+        reject(e);
+      }
+    });
+  })
+ 
+  
+}
 
 export const reportProduct = (imgfile) => {
   const { currentProduct } = store.getState();

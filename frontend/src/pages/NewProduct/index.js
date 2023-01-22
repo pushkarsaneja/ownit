@@ -27,6 +27,8 @@ const NewProduct = () => {
   const [loading, setLoading] = useState(false);
   let nft;
 
+  const [token,setToken] = useState(0);
+
   console.log(formData);
 
   const onsubmitHandler = async () => {
@@ -46,6 +48,7 @@ const NewProduct = () => {
           quantity: 1,
           nft,
           lot: lot,
+          token:token,
         });
       }
       alert.success("Products Created");
@@ -53,6 +56,7 @@ const NewProduct = () => {
       setLoading(false);
       navigate("/profile");
     } catch (err) {
+      console.log(err); 
       alert.error("Some Error Occured while creting product");
       setLoading(false);
     }
@@ -121,6 +125,8 @@ const NewProduct = () => {
         const receipt = await web3.eth.getTransactionReceipt(transaction.hash);
 
         const tokenNumber = parseInt(receipt.logs[0].topics[3], 16);
+
+        setToken(tokenNumber);
 
         console.log(tokenNumber);
 
