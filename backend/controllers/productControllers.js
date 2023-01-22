@@ -14,7 +14,7 @@ exports.postProduct = async (req, res, next) => {
       categories.length === 0 ||
       !description ||
       !nft ||
-      !token
+      token === null
     )
       return next(new ErrorHandler("Insufficient Data", 401));
 
