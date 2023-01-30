@@ -11,10 +11,10 @@ import TransferOwnershipModal from "./TransferOwnershipModal";
 import notFound from "../../assets/images/imgNotFound.webp";
 import Primary from "../../components/Buttons/Primary";
 import ReportStolenModal from "./ReportStolenModal";
-import BannerMessage from "../../components/bannerMessage";
 import { markFound } from "./logic";
 import { useAlert } from "react-alert";
 import cautionSign from "../../assets/icons/caution-sign.png";
+import tickGif from "../../assets/images/tick.gif";
 import Loading from "../../components/Loading";
 
 const ProductInfo = () => {
@@ -88,10 +88,12 @@ const ProductInfo = () => {
             <img src={cautionSign} alt="" />
             This product was reported STOLEN.
           </div>
-          // <BannerMessage
-          //   text="This product is reported as STOLEN"
-          //   color="danger"
-          // />
+        )}
+        {currentOwner && id && currentOwner.toString() === id.toString() && (
+          <div className={style["current-owner-message"]}>
+            <img src={tickGif} alt="tick" />
+            You are the current owner
+          </div>
         )}
         <header className={style["header"]}>
           <div className={style["info"]}>

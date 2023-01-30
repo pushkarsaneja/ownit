@@ -54,6 +54,18 @@
     }
   }
 
+  .current-owner-message {
+    font-size: 1rem;
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    img {
+      height: 30px;
+      width: 30px;
+    }
+  }
+
   .actionBtnsWrapper {
     // color: red;
     display: flex;
