@@ -65,7 +65,7 @@ function TransferOwnershipModal({
         }
       })
       .catch((err) => {
-        alert.error(err);
+        // alert.error(err);
       })
       .finally(() => {
         setLoading(() => ({ ...loading, transfer: false }));

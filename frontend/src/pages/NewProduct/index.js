@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import style from "./style.module.scss";
 import addIconWhite from "../../assets/icons/plusWhite.png";
 import InputHandler from "../../components/InputHandler";
@@ -14,7 +14,7 @@ import OwnerNFT from "../../OwnerNFT.json";
 import { genRanHex } from "../../helperFunctions/generateRandomHexNumber";
 import Loading from "../../components/Loading";
 
-import Web3 from 'web3';
+import Web3 from "web3";
 
 const NewProduct = () => {
   const alert = useAlert();
@@ -27,8 +27,8 @@ const NewProduct = () => {
   const [loading, setLoading] = useState(false);
   let nft;
 
-  const [token,setToken] = useState(0);
-
+  // const [token,setToken] = useState(0);
+  const tokenRef = useRef(0);
   console.log(formData);
 
   const onsubmitHandler = async () => {
@@ -48,7 +48,7 @@ const NewProduct = () => {
           quantity: 1,
           nft,
           lot: lot,
-          token:token,
+          token: tokenRef.current,
         });
       }
       alert.success("Products Created");
@@ -56,7 +56,7 @@ const NewProduct = () => {
       setLoading(false);
       navigate("/profile");
     } catch (err) {
-      console.log(err); 
+      console.log(err);
       alert.error("Some Error Occured while creting product");
       setLoading(false);
     }
@@ -121,18 +121,17 @@ const NewProduct = () => {
         let transaction = await contract.createToken(metadataURL);
 
         await transaction.wait();
-        
+
         const receipt = await web3.eth.getTransactionReceipt(transaction.hash);
 
         const tokenNumber = parseInt(receipt.logs[0].topics[3], 16);
-
-        setToken(tokenNumber);
+        tokenRef.current = tokenNumber;
+        // setToken(tokenNumber);
 
         console.log(tokenNumber);
 
         console.log(transaction);
 
-        
         resolve(transaction);
         console.log("Successfully listed your NFT!");
       } catch (e) {
